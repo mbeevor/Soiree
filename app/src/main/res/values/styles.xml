@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- style for main heading text -->
+    <style name="main_heading">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/heading_text_size</item>
+    </style>
+
+    <!-- style for dinner party label -->
+    <style name="dinner_party_label">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/sub_heading_text_size</item>
+    </style>
+
+    <!-- style for rating  -->
+    <style name="rating">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/heading_text_size</item>
+    </style>
+
 </resources>

@@ -7,13 +7,80 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.soiree.MainActivity">
 
+    <ImageView
+        android:id="@+id/main_app_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="@dimen/narrow_margin"
+        android:layout_marginStart="@dimen/narrow_margin"
+        android:layout_marginTop="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/food"
+        app:layout_constraintBottom_toTopOf="@+id/main_heading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
+        android:id="@+id/main_heading"
+        style="@style/main_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/narrow_margin"
+        android:layout_marginEnd="@dimen/narrow_margin"
+        android:layout_marginStart="@dimen/narrow_margin"
+        android:layout_marginTop="@dimen/narrow_margin"
+        android:text="@string/upcoming_parties"
+        app:layout_constraintTop_toBottomOf="@id/main_app_image"
+        app:layout_constraintBottom_toTopOf="@id/dinner_party_list_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/empty_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_heading" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_heading"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/dinner_party_list_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/narrow_margin"
+        android:layout_marginEnd="@dimen/narrow_margin"
+        android:layout_marginStart="@dimen/narrow_margin"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_heading" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/search_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:clickable="true"
+        android:elevation="@dimen/fab_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
