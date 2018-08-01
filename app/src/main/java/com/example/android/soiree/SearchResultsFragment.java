@@ -1,8 +1,11 @@
 package com.example.android.soiree;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,17 +21,26 @@ import com.example.android.soiree.Adapters.ResultsListAdapter;
 import com.example.android.soiree.AsyncTasks.AsyncTaskListener;
 import com.example.android.soiree.AsyncTasks.GetRecipeData;
 import com.example.android.soiree.Utils.NetworkUtils;
+import com.example.android.soiree.data.DBHandler;
 import com.example.android.soiree.model.Keys;
 import com.example.android.soiree.model.Recipe;
 
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.example.android.soiree.data.DinnerContract.RecipeEntry.METHOD_URL;
+import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_ID;
+import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_IMAGE;
+import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_NAME;
+import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_RANK;
+
 public class SearchResultsFragment extends Fragment {
 
     private String searchQuery;
+    private Recipe recipe;
     private RecyclerView resultsRecyclerView;
     private ResultsListAdapter resultsListAdapter;
+    private DBHandler dbHandler;
 
     @Nullable
     @Override
@@ -49,6 +61,10 @@ public class SearchResultsFragment extends Fragment {
         resultsRecyclerView.setLayoutManager(gridLayoutManager);
         resultsRecyclerView.setHasFixedSize(true);
 
+        // initialise database
+        dbHandler = new DBHandler(getContext());
+        SQLiteDatabase database = dbHandler.getWritableDatabase();
+
         // create new adapter and assign on click listener to show alert dialog to add to dinner party
         resultsListAdapter = new ResultsListAdapter(getContext(), new ResultsListAdapter.OnItemClickHandler() {
             @Override
@@ -62,6 +78,14 @@ public class SearchResultsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // add recipe to dinner party
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(RECIPE_ID, recipe.getRecipeId());
+                        contentValues.put(RECIPE_IMAGE, recipe.getRecipeImage());
+                        contentValues.put(METHOD_URL, recipe.getMethodUrl());
+                        contentValues.put(RECIPE_NAME, recipe.getRecipeTitle());
+                        contentValues.put(RECIPE_RANK, recipe.getRecipeRank());
+
+                        Uri newUri = getContentResolver().
                         Toast.makeText(getContext(), R.string.recipe_added_to_dinner_party, Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -19,12 +19,45 @@ public class Recipe implements Parcelable {
         recipeRank = rank;
     }
 
-    public String getRecipeTitle() { return recipeTitle; }
-    public String getMethodUrl() { return methodUrl; }
-    public String getRecipeId() { return recipeId; }
-    public String getRecipeImage() { return recipeImage;}
-    public String getRecipeRank() { return recipeRank; }
+    public String getRecipeTitle() {
+        return recipeTitle;
+    }
 
+    public String getMethodUrl() {
+        return methodUrl;
+    }
+
+    public String getRecipeId() {
+        return recipeId;
+    }
+
+    public String getRecipeImage() {
+        return recipeImage;
+    }
+
+    public String getRecipeRank() {
+        return recipeRank;
+    }
+
+    public void setRecipeTitle(String title) {
+        recipeTitle = title;
+    }
+
+    public void setMethodUrl(String url) {
+        methodUrl = url;
+    }
+
+    public void setRecipeId(String id) {
+        recipeId = id;
+    }
+
+    public void setRecipeImage(String image) {
+        recipeImage = image;
+    }
+
+    public void setRecipeRank(String rank) {
+        recipeRank = rank;
+    }
 
     protected Recipe(Parcel in) {
 
