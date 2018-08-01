@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         dinnerPartyListRecyclerView.setHasFixedSize(true);
 
         dinnerPartyListRecyclerView.setAdapter(dinnerAdapter);
+        showDinnerParties();
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

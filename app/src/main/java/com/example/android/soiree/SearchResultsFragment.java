@@ -1,5 +1,7 @@
 package com.example.android.soiree;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.soiree.Adapters.ResultsListAdapter;
 import com.example.android.soiree.AsyncTasks.AsyncTaskListener;
@@ -29,7 +32,7 @@ public class SearchResultsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         savedInstanceState = getArguments();
         if (savedInstanceState != null ) {
@@ -46,7 +49,36 @@ public class SearchResultsFragment extends Fragment {
         resultsRecyclerView.setLayoutManager(gridLayoutManager);
         resultsRecyclerView.setHasFixedSize(true);
 
-        resultsListAdapter = new ResultsListAdapter(getContext());
+        // create new adapter and assign on click listener to show alert dialog to add to dinner party
+        resultsListAdapter = new ResultsListAdapter(getContext(), new ResultsListAdapter.OnItemClickHandler() {
+            @Override
+            public void onItemClick(View item, int position) {
+
+                // alert dialog when recipe selected
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage(R.string.add_recipe_to_dinner_party);
+
+                builder.setPositiveButton(R.string.confirm_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // add recipe to dinner party
+                        Toast.makeText(getContext(), R.string.recipe_added_to_dinner_party, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // user clicks cancel
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+            }
+        });
         resultsRecyclerView.setAdapter(resultsListAdapter);
         loadResults(searchQuery);
 
@@ -54,6 +86,7 @@ public class SearchResultsFragment extends Fragment {
     }
 
 
+    // query API using search term entered
     private void loadResults(String url) {
 
         if (url != null) {
@@ -80,6 +113,7 @@ public class SearchResultsFragment extends Fragment {
         return gridColumns;
     }
 
+    // initiate AsyncTask to return list of recipes and attach to adapter
     public class GetRecipeDataListener implements AsyncTaskListener {
 
         @Override

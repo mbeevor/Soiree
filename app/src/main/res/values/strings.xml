@@ -8,5 +8,14 @@
     <!-- placeholder text -->
     <string name="empty_view">Make some dinner plans!</string>
 
+
+    <!-- alert strings -->
+    <string name="add_recipe_to_dinner_party">Add selected recipe to dinner party?</string>
+    <string name="confirm_text">Add to dinner party</string>
+    <string name="cancel">Cancel</string>
+    <string name="recipe_added_to_dinner_party">Recipe has been saved to your dinner party.</string>
+    <string name="recipe_failed_to_add_to_dinner_party">Error. Please try again.</string>
+
+
 </resources>
 

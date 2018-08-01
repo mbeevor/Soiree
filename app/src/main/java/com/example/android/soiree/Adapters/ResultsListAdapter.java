@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.soiree.R;
 import com.example.android.soiree.model.Recipe;
@@ -13,18 +15,29 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapterViewHolder>  {
+
+public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ResultsListAdapterViewHolder>  {
 
     /** adapter for RecyclerView in SearchFragment showing list of results
      */
 
     private ArrayList<Recipe> recipesList;
+    private OnItemClickHandler onItemClickHandler;
     private Context context;
 
-    public ResultsListAdapter(Context activity) {
+
+    public ResultsListAdapter(Context activity, OnItemClickHandler handler) {
         context = activity;
+        onItemClickHandler = handler;
         setHasStableIds(true);
+    }
+
+    // interface for Handler
+    public interface OnItemClickHandler {
+        void onItemClick(View item, int position);
     }
 
     @Override
@@ -79,6 +92,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapterV
         } return recipesList.size();
     }
 
+    // notify the app that data has changed to refresh the view
     public void updateData(ArrayList<Recipe> recipes) {
 
         if (recipes != null)
@@ -86,4 +100,31 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapterV
         notifyDataSetChanged();
     }
 
-}
+
+    // view holder class that extends recyclerview holder
+    public class ResultsListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        @BindView(R.id.results_image_view) public ImageView resultsImageView;
+        @BindView(R.id.results_rating_text_view) public TextView resultsRatingTextView;
+        @BindView(R.id.results_title_text_view) public TextView resultsTitleTextView;
+
+
+        public ResultsListAdapterViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                onItemClickHandler.onItemClick(v, position);
+            }
+
+        }
+
+    }
+
+  }
