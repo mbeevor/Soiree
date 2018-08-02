@@ -22,9 +22,12 @@
             android:name=".DinnerActivity"
             android:parentActivityName=".MainActivity"></activity>
         <activity
+            android:name=".CourseActivity"
+            android:parentActivityName=".DinnerActivity"></activity>
+        <activity
             android:name=".SearchActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".DinnerActivity">
+            android:parentActivityName=".CourseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -39,6 +42,10 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.example.android.soiree"
+            android:name=".data.DinnerProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

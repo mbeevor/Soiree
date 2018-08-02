@@ -7,20 +7,11 @@
 
     <include layout="@layout/toolbar" />
 
-    <Spinner
-        android:id="@+id/dinner_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/starter_card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <android.support.v7.widget.CardView
         android:id="@+id/starter_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/narrow_margin"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="@dimen/narrow_margin"
         android:layout_marginStart="@dimen/narrow_margin"
         android:layout_marginTop="@dimen/narrow_margin"
@@ -29,7 +20,7 @@
         android:focusable="true"
         android:foreground="?selectableItemBackground"
         android:transitionGroup="true"
-        app:layout_constraintTop_toBottomOf="@id/dinner_spinner"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/main_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -79,7 +70,7 @@
         android:id="@+id/main_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/narrow_margin"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="@dimen/narrow_margin"
         android:layout_marginStart="@dimen/narrow_margin"
         android:layout_marginTop="@dimen/narrow_margin"
@@ -138,7 +129,6 @@
         android:id="@+id/pudding_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/narrow_margin"
         android:layout_marginEnd="@dimen/narrow_margin"
         android:layout_marginStart="@dimen/narrow_margin"
         android:layout_marginTop="@dimen/narrow_margin"
@@ -147,10 +137,11 @@
         android:focusable="true"
         android:foreground="?selectableItemBackground"
         android:transitionGroup="true"
-        app:layout_constraintTop_toBottomOf="@id/main_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_card">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -164,7 +155,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
                 android:id="@+id/pudding_skimView"
@@ -174,7 +165,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/pudding_label"
@@ -187,7 +178,7 @@
                 android:gravity="bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </android.support.constraint.ConstraintLayout>
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +24,7 @@ public class SearchActivity extends AppCompatActivity {
     public String searchQuery;
     @BindView(R.id.search_bar) SearchView searchView;
     @BindView(R.id.toolbar) Toolbar toolbar;
-    String appBarName;
+    String courseName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,8 +33,8 @@ public class SearchActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent getCourseName = getIntent();
         if (getCourseName != null) {
-            appBarName = getCourseName.getStringExtra(COURSE);
-            setTitle(appBarName);
+            courseName = getCourseName.getStringExtra(COURSE);
+            setTitle(courseName);
         }
 
         // assign toolbar to activity, and enable back button in action bar

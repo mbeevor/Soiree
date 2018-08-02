@@ -85,7 +85,7 @@ public class DinnerActivity extends AppCompatActivity {
     // method to launch intent when selecting a course
     public void showSelectedCourseIntent(String courseName) {
 
-        Intent showSelectedCourseIntent = new Intent(getApplicationContext(), SearchActivity.class);
+        Intent showSelectedCourseIntent = new Intent(getApplicationContext(), CourseActivity.class);
         showSelectedCourseIntent.putExtra(COURSE, courseName);
         startActivity(showSelectedCourseIntent);
 

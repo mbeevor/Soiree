@@ -4,24 +4,24 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.MAIN_ID;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.METHOD_URL;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.PUDDING_ID;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_ID;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_IMAGE;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_NAME;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_RANK;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.STARTER_ID;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.TABLE_DINNER;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.TABLE_MAIN;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.TABLE_PUDDING;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.TABLE_STARTER;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry._ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.METHOD_URL;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_IMAGE;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_RANK;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_DINNER;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_MAIN;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_PUDDING;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_STARTER;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 
 public class DBHandler extends SQLiteOpenHelper {
 
     //Database Version and name
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "dinnerPartyList.db";
 
     private static final String SQL_CREATE_STARTER_TABLE =

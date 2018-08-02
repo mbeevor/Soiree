@@ -1,14 +1,29 @@
 package com.example.android.soiree.data;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class DinnerContract {
+
+    // content authority constants
+    public static final String CONTENT_AUTHORITY = "com.example.android.soiree";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_DINNER = "dinner";
+
 
     // empty constructor
     private DinnerContract() {
     }
 
-    public static final class RecipeEntry implements BaseColumns {
+    public static final class DinnerEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_DINNER);
+
+        // MIME type for directory of items
+        public static final String CONTENT_LIST_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DINNER;
+        // MIME type for single item
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DINNER;
 
         // table names
         public static final String TABLE_STARTER = "starter";
@@ -16,7 +31,7 @@ public class DinnerContract {
         public static final String TABLE_PUDDING = "pudding";
         public static final String TABLE_DINNER = "dinner";
 
-        // unique ID for each item in any table
+        // common column name
         public static final String _ID = BaseColumns._ID;
 
         // dinner database column

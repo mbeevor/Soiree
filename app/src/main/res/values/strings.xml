@@ -4,11 +4,12 @@
     <!-- Text for app labels -->
     <string name="upcoming_parties">Your dinner parties</string>
     <string name="ingredients_header">Ingredients</string>
+    <string name="notes_header">Notes</string>
     <string name="recipe_button">View recipe</string>
     <string name="search_hint">Search by ingredient</string>
-    <string name="starter">Find a starter</string>
-    <string name="main">Find a main</string>
-    <string name="pudding">Find a pudding</string>
+    <string name="starter">Starter</string>
+    <string name="main">Main Course</string>
+    <string name="pudding">Pudding</string>
 
 
     <!-- placeholder text -->

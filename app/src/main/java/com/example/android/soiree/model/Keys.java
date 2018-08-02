@@ -1,7 +1,5 @@
 package com.example.android.soiree.model;
 
-import android.net.Uri;
-
 import com.example.android.soiree.BuildConfig;
 
 public class Keys {
@@ -10,10 +8,6 @@ public class Keys {
 
     // app bar keys
     public static final String COURSE = "course";
-
-    // content authority constants
-    public static final String CONTENT_AUTHORITY = "com.example.android.soiree";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // API constants
     public static final String BASE_URL = "http://food2fork.com/api/search?key=";

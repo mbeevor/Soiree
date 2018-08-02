@@ -12,8 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,11 +29,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.METHOD_URL;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_ID;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_IMAGE;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_NAME;
-import static com.example.android.soiree.data.DinnerContract.RecipeEntry.RECIPE_RANK;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -85,15 +79,15 @@ public class SearchResultsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO: add recipe to dinner party
-//                        ContentValues contentValues = new ContentValues();
-//                        contentValues.put(RECIPE_ID, recipe.getRecipeId());
-//                        contentValues.put(RECIPE_IMAGE, recipe.getRecipeImage());
-//                        contentValues.put(METHOD_URL, recipe.getMethodUrl());
-//                        contentValues.put(RECIPE_NAME, recipe.getRecipeTitle());
-//                        contentValues.put(RECIPE_RANK, recipe.getRecipeRank());
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(DinnerEntry.RECIPE_ID, recipe.getRecipeId());
+                        contentValues.put(DinnerEntry.RECIPE_IMAGE, recipe.getRecipeImage());
+                        contentValues.put(DinnerEntry.METHOD_URL, recipe.getMethodUrl());
+                        contentValues.put(DinnerEntry.RECIPE_NAME, recipe.getRecipeTitle());
+                        contentValues.put(DinnerEntry.RECIPE_RANK, recipe.getRecipeRank());
 
-                        // return to dinner party details after adding recipe
-                        Intent backToDinnerIntent = new Intent(context, DinnerActivity.class);
+                        // return to course details after adding recipe
+                        Intent backToDinnerIntent = new Intent(context, CourseActivity.class);
                         startActivity(backToDinnerIntent);
                         Toast.makeText(getApplicationContext(), R.string.recipe_added_to_dinner_party, Toast.LENGTH_SHORT).show();
                     }

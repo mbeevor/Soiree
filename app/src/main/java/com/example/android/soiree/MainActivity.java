@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.search_fab)
+    @BindView(R.id.new_fab)
     FloatingActionButton floatingActionButton;
     @BindView(R.id.dinner_party_list_recyclerview)
     RecyclerView dinnerPartyListRecyclerView;
