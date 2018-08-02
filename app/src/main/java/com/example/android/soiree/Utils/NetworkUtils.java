@@ -20,7 +20,6 @@ public class NetworkUtils {
     public static URL queryUrl(String query) {
 
         String combinedUri = Keys.BASE_URL + API_KEY + SEARCH_QUERY + query;
-        Log.v("combined URI = ", combinedUri);
         Uri builtUri = Uri.parse(combinedUri).buildUpon().build();
 
         URL url = null;

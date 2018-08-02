@@ -8,6 +8,9 @@ public class Keys {
 
     public static final String RECIPES = "recipes";
 
+    // app bar keys
+    public static final String COURSE = "course";
+
     // content authority constants
     public static final String CONTENT_AUTHORITY = "com.example.android.soiree";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/toolbar" />
+
+    <!-- TODO: add spinner date here -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- TODO: Add view pager here -->
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+
+    <TextView
+        android:id="@+id/ingredients_header_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ingredients_header"/>
+
+    <!--TODO: Add recyclerView for ingredients here -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_button"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/search_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:clickable="true"
+        android:elevation="@dimen/fab_elevation"
+        android:src="@drawable/fab_plus"
+        app:layout_anchorGravity="bottom|end"
+        />
+
+</android.support.constraint.ConstraintLayout>
