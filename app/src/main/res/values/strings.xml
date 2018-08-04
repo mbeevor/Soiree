@@ -17,6 +17,8 @@
     <!-- placeholder text -->
     <string name="name_of_dinner">Dinner party name</string>
     <string name="empty_view">Make some dinner plans!</string>
+    <string name="empty_ingredients_view">Add a recipe to see the ingredients.</string>
+    <string name="empty_notes_view">Store your recipe notes here.</string>
     <string name="save_button_text">Save</string>
     <string name="starter_card_label">Starter</string>
     <string name="main_card_label">Main</string>
@@ -25,7 +27,9 @@
 
     <!-- alert strings -->
     <string name="add_recipe_to_dinner_party">Add selected recipe to dinner party?</string>
+    <string name="replace_saved_recipe">Searching will replace your saved recipe, and delete any notes. Continue?</string>
     <string name="confirm_text">Add to dinner party</string>
+    <string name="confirm_replace_text">Replace recipe</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="edit_text_empty_warning">Please enter a name for your dinner party</string>

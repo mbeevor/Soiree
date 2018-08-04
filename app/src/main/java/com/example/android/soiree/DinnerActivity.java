@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.android.soiree.Adapters.DinnerCursorAdapter;
 import com.example.android.soiree.model.Dinner;
 
 import butterknife.BindView;
@@ -42,7 +40,6 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.DEFAULT_GUEST_LIST;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
-import static com.example.android.soiree.model.Keys.URI_ID;
 
 
 public class DinnerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -50,11 +47,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     private static final int EXISTING_DINNER_LOADER = 0;
 
     private Dinner dinner;
-    private String starterId;
-    private String mainId;
-    private String puddingId;
-    private String guestList;
-    private String recipeNotes;
+    private String dinnerName;
     @BindView(R.id.save_button)
     Button saveButton;
     @BindView(R.id.starter_card)
@@ -78,9 +71,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     @BindView(R.id.name_edit_text)
     EditText nameEditText;
     private String courseName;
-    private DinnerCursorAdapter dinnerCursorAdapter;
     private Uri currentDinnerUri;
-    private String dinnerName;
 
 
     @Override
@@ -145,8 +136,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
             // create layout for existing dinner
         } else {
-            Log.v("currentDinnerUri = ", currentDinnerUri.toString());
-
             nameEditText.setVisibility(View.GONE);
             saveButton.setVisibility(View.GONE);
             loadSavedDinner();
@@ -183,7 +172,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
         Intent showSelectedCourseIntent = new Intent(getApplicationContext(), CourseActivity.class);
         showSelectedCourseIntent.putExtra(COURSE, courseName);
-        showSelectedCourseIntent.putExtra(URI_ID, uri);
+        showSelectedCourseIntent.setData(uri);
         startActivity(showSelectedCourseIntent);
 
     }
@@ -251,20 +240,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
         if (cursor.moveToFirst()) {
             int dinnerNameIndex = cursor.getColumnIndex(DINNER_NAME);
-            int starterIdIndex = cursor.getColumnIndex(STARTER_ID);
-            int mainIdIndex = cursor.getColumnIndex(MAIN_ID);
-            int puddingIdIndex = cursor.getColumnIndex(PUDDING_ID);
-            int guestIdIndex = cursor.getColumnIndex(GUEST_LIST);
-            int notesIdIndex = cursor.getColumnIndex(RECIPE_NOTES);
-
             dinnerName = cursor.getString(dinnerNameIndex);
-            starterId = cursor.getString(starterIdIndex);
-            mainId = cursor.getString(mainIdIndex);
-            puddingId = cursor.getString(puddingIdIndex);
-            guestList = cursor.getString(guestIdIndex);
-            recipeNotes = cursor.getString(notesIdIndex);
-
-            dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
             setTitle(dinnerName);
 
 
@@ -273,7 +249,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 public void onClick(View v) {
                     courseName = getString(R.string.starter);
                     showSelectedCourseIntent(courseName, currentDinnerUri);
-                    Toast.makeText(getApplicationContext(), ("current uri is " + currentDinnerUri.toString()), Toast.LENGTH_SHORT).show();
                 }
             });
 

@@ -1,6 +1,13 @@
 package com.example.android.soiree;
 
+import android.app.AlertDialog;
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,16 +23,35 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.example.android.soiree.model.Dinner;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.COURSE;
+import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 
-public class CourseActivity extends AppCompatActivity {
+public class CourseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int EXISTING_DINNER_LOADER = 5;
+
+    private Dinner dinner;
+    private String dinnerName;
+    private String starterId;
+    private String mainId;
+    private String puddingId;
+    private String guestList;
+    private String recipeNotes;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.viewpager)
@@ -35,7 +61,10 @@ public class CourseActivity extends AppCompatActivity {
     @BindView(R.id.search_fab)
     FloatingActionButton floatingActionButton;
     private String courseName;
+    private int currentCourse;
     private Uri currentDinnerUri;
+    private Intent searchActivity;
+    Context context = this;
 
 
     @Override
@@ -45,16 +74,12 @@ public class CourseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // get intent from dinner party
-        Intent getIntent = getIntent();
+        final Intent getIntent = getIntent();
         courseName = getIntent.getStringExtra(COURSE);
         currentDinnerUri = getIntent.getData();
+        starterId = getIntent.getStringExtra(STARTER_ID);
 
-        if (courseName != null) {
-            setTitle(courseName);
-        }
-        if (currentDinnerUri != null) {
-            Log.v("Content URI = ", currentDinnerUri.toString());
-        }
+        searchActivity = new Intent(getApplicationContext(), SearchActivity.class);
 
         // assign toolbar to activity, and enable back button in action bar
         setSupportActionBar(toolbar);
@@ -65,14 +90,59 @@ public class CourseActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
+        if (courseName != null) {
+            setTitle(courseName);
+        }
+
+        if (currentDinnerUri != null) {
+            loadSavedDinner();
+        }
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                intent.putExtra(COURSE, courseName);
-                startActivity(intent);
+
+                /* if no recipe has been previously selected, the IDs for each course will be set to the default value,
+                 * and we can run a search to find a recipe. Otherwise, you will be warned that data will be lost before
+                 * you start a new search.
+                 */
+                if (starterId != null || starterId.equals(DEFAULT_VALUE) || mainId.equals(DEFAULT_VALUE) || puddingId.equals(DEFAULT_VALUE)) {
+                    searchActivity.putExtra(COURSE, courseName);
+                    startActivity(searchActivity);
+                    Log.v("starterID is = ", starterId);
+                } else {
+                    // alert dialog when FAB selected and recipe already saved
+                    Log.v("starterID is = ", starterId);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(R.string.replace_saved_recipe);
+
+                    builder.setPositiveButton(R.string.confirm_replace_text, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(searchActivity);
+                        }
+                    });
+
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // user clicks cancel
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
             }
         });
+    }
+
+
+    private void loadSavedDinner() {
+
+        getLoaderManager().initLoader(EXISTING_DINNER_LOADER, null, this);
 
     }
 
@@ -82,6 +152,49 @@ public class CourseActivity extends AppCompatActivity {
         adapter.addFragment(new IngredientsFragment(), getString(R.string.ingredients_header));
         adapter.addFragment(new NotesFragment(), getString(R.string.notes_header));
         pager.setAdapter(adapter);
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = {
+                _ID,
+                DINNER_NAME,
+                STARTER_ID,
+                MAIN_ID,
+                PUDDING_ID,
+                GUEST_LIST,
+                RECIPE_NOTES,
+        };
+
+        return new CursorLoader(this, currentDinnerUri, projection, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        if (cursor.moveToFirst()) {
+            int dinnerNameIndex = cursor.getColumnIndex(DINNER_NAME);
+            int starterIdIndex = cursor.getColumnIndex(STARTER_ID);
+            int mainIdIndex = cursor.getColumnIndex(MAIN_ID);
+            int puddingIdIndex = cursor.getColumnIndex(PUDDING_ID);
+            int guestIdIndex = cursor.getColumnIndex(GUEST_LIST);
+            int notesIdIndex = cursor.getColumnIndex(RECIPE_NOTES);
+
+            dinnerName = cursor.getString(dinnerNameIndex);
+            starterId = cursor.getString(starterIdIndex);
+            mainId = cursor.getString(mainIdIndex);
+            puddingId = cursor.getString(puddingIdIndex);
+            guestList = cursor.getString(guestIdIndex);
+            recipeNotes = cursor.getString(notesIdIndex);
+
+            dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 
@@ -114,5 +227,12 @@ public class CourseActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return pagerTitleList.get(position);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DinnerActivity.class);
+        intent.setData(currentDinnerUri);
+        super.onBackPressed();
     }
 }

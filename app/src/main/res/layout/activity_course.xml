@@ -31,7 +31,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:clickable="true"
         android:elevation="@dimen/fab_elevation"
-        android:src="@drawable/fab_plus"
+        android:src="@drawable/fab_search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

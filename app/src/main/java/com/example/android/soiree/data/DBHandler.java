@@ -16,7 +16,7 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 public class DBHandler extends SQLiteOpenHelper {
 
     //Database Version and name
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "dinnerParty.db";
 
     private static final String SQL_CREATE_DINNER_TABLE =

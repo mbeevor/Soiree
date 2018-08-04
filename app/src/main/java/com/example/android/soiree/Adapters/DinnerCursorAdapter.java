@@ -13,6 +13,8 @@ import com.example.android.soiree.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
+
 public class DinnerCursorAdapter extends CursorRecyclerViewAdapter<DinnerCursorAdapter.DinnerCursorViewHolder> {
 
     private OnItemClickHandler clickHandler;
@@ -21,7 +23,8 @@ public class DinnerCursorAdapter extends CursorRecyclerViewAdapter<DinnerCursorA
     public void onBindViewHolder(DinnerCursorViewHolder holder, Cursor cursor) {
 
         DinnerCursorViewHolder viewHolder = holder;
-        viewHolder.dinnerPartyTextView.setText("Testing this works!");
+        String dinnerPartyName = cursor.getString(cursor.getColumnIndex(DINNER_NAME));
+        viewHolder.dinnerPartyTextView.setText(dinnerPartyName);
 
     }
 

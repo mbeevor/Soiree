@@ -22,18 +22,21 @@ public class SearchActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     public String searchQuery;
-    @BindView(R.id.search_bar) SearchView searchView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    String courseName;
+    @BindView(R.id.search_bar)
+    SearchView searchView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    private String courseName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_search);
         ButterKnife.bind(this);
-        Intent getCourseName = getIntent();
-        if (getCourseName != null) {
-            courseName = getCourseName.getStringExtra(COURSE);
+        Intent getIntent = getIntent();
+        courseName = getIntent.getStringExtra(COURSE);
+
+        if (courseName != null) {
             setTitle(courseName);
         }
 
@@ -60,11 +63,14 @@ public class SearchActivity extends AppCompatActivity {
 
     public void doMySearch(String query) {
 
-        Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
-        Bundle queryForSearchResults = new Bundle();
-        queryForSearchResults.putString(Keys.QUERY, query);
-        searchResultsIntent.putExtras(queryForSearchResults);
-        startActivity(searchResultsIntent);
+        if (courseName != null) {
+            Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
+            Bundle queryForSearchResults = new Bundle();
+            queryForSearchResults.putString(Keys.QUERY, query);
+            searchResultsIntent.putExtra(COURSE, courseName);
+            searchResultsIntent.putExtras(queryForSearchResults);
+            startActivity(searchResultsIntent);
+        }
     }
 
     private void handleIntent(Intent intent) {

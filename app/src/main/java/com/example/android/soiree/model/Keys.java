@@ -30,6 +30,12 @@ public class Keys {
     public static final String DEFAULT_GUEST_LIST = "default_guest_list";
     public static final String URI_ID = "uri_id";
 
+    // static integers for course selected
+    public static final int COURSE_UNKNOWN = 0;
+    public static final int COURSE_STARTER = 1;
+    public static final int COURSE_MAIN = 2;
+    public static final int COURSE_PUDDING = 3;
+
 
 
 }

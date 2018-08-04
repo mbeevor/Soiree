@@ -28,6 +28,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.model.Keys.COURSE;
+import static com.example.android.soiree.model.Keys.COURSE_MAIN;
+import static com.example.android.soiree.model.Keys.COURSE_PUDDING;
+import static com.example.android.soiree.model.Keys.COURSE_STARTER;
+import static com.example.android.soiree.model.Keys.COURSE_UNKNOWN;
+
 public class SearchResultsActivity extends AppCompatActivity {
 
     final Context context = this;
@@ -36,6 +43,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     private Recipe recipe;
     @BindView(R.id.search_results_recyclerview) RecyclerView resultsRecyclerView;
     private ResultsListAdapter resultsListAdapter;
+    private String courseName;
+    private int currentCourse;
     private DBHandler dbHandler;
 
     @Override
@@ -44,12 +53,23 @@ public class SearchResultsActivity extends AppCompatActivity {
         Bundle searchResultsIntent = getIntent().getExtras();
         setContentView(R.layout.activity_search_results);
         ButterKnife.bind(this);
+        courseName = searchResultsIntent.getString(COURSE);
+        searchQuery = searchResultsIntent.getString(Keys.QUERY);
 
-        // get search query
-        if (searchResultsIntent != null ) {
-            searchQuery = searchResultsIntent.getString(Keys.QUERY);
-        } else {
+        if (searchQuery == null ) {
             searchQuery = "";
+        }
+
+        if (courseName != null) {
+            if (courseName.equals(getString(R.string.starter))) {
+                currentCourse = COURSE_STARTER;
+            } else if (courseName.equals(getString(R.string.main))) {
+                currentCourse = COURSE_MAIN;
+            } else if (courseName.equals(getString(R.string.pudding))) {
+                currentCourse = COURSE_PUDDING;
+            } else {
+                currentCourse = COURSE_UNKNOWN;
+            }
         }
 
         // create GridLayoutManager for results
@@ -74,10 +94,20 @@ public class SearchResultsActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.confirm_text, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        Intent backToDinnerIntent = new Intent(context, CourseActivity.class);
+
                         // TODO: add recipe to dinner party
+                        switch (currentCourse) {
+                            case COURSE_STARTER:
+                                String starterId = recipe.getRecipeId();
+                                backToDinnerIntent.putExtra(COURSE, currentCourse);
+                                backToDinnerIntent.putExtra(STARTER_ID, starterId);
+
+
+                        }
 
                         // return to course details after adding recipe
-                        Intent backToDinnerIntent = new Intent(context, CourseActivity.class);
                         startActivity(backToDinnerIntent);
                         Toast.makeText(getApplicationContext(), R.string.recipe_added_to_dinner_party, Toast.LENGTH_SHORT).show();
                     }

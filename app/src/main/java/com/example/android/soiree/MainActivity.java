@@ -13,7 +13,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -136,9 +135,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 cursor.moveToPosition(position);
                 Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
-                Uri currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position);
+                Uri currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position + 1);
                 dinnerIntent.setData(currentDinnerUri);
-                Log.v("currentDinnerUri = ", currentDinnerUri.toString());
                 startActivity(dinnerIntent);
             }
         });
