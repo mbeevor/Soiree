@@ -1,6 +1,7 @@
 package com.example.android.soiree;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -32,7 +34,8 @@ public class CourseActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @BindView(R.id.search_fab)
     FloatingActionButton floatingActionButton;
-    String courseName;
+    private String courseName;
+    private Uri currentDinnerUri;
 
 
     @Override
@@ -41,11 +44,16 @@ public class CourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course);
         ButterKnife.bind(this);
 
-        // get intent of course name
-        Intent getCourseName = getIntent();
-        if (getCourseName != null) {
-            courseName= getCourseName.getStringExtra(COURSE);
+        // get intent from dinner party
+        Intent getIntent = getIntent();
+        courseName = getIntent.getStringExtra(COURSE);
+        currentDinnerUri = getIntent.getData();
+
+        if (courseName != null) {
             setTitle(courseName);
+        }
+        if (currentDinnerUri != null) {
+            Log.v("Content URI = ", currentDinnerUri.toString());
         }
 
         // assign toolbar to activity, and enable back button in action bar

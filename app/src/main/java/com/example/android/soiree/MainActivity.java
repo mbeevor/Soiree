@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 STARTER_ID,
                 MAIN_ID,
                 PUDDING_ID,
+                GUEST_LIST,
                 RECIPE_NOTES,
         };
 
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
                 Uri currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position);
                 dinnerIntent.setData(currentDinnerUri);
+                Log.v("currentDinnerUri = ", currentDinnerUri.toString());
                 startActivity(dinnerIntent);
             }
         });

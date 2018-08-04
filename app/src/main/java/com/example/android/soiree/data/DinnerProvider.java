@@ -27,7 +27,7 @@ public class DinnerProvider extends ContentProvider {
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         URI_MATCHER.addURI(CONTENT_AUTHORITY, DinnerContract.PATH_DINNER, DINNERS);
-        URI_MATCHER.addURI(CONTENT_AUTHORITY, DinnerContract.PATH_DINNER + "#", DINNER_ID);
+        URI_MATCHER.addURI(CONTENT_AUTHORITY, DinnerContract.PATH_DINNER + "/#", DINNER_ID);
 
     }
 
@@ -60,7 +60,7 @@ public class DinnerProvider extends ContentProvider {
                 cursor = database.query(TABLE_DINNER, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Error loading database " + uri.toString());
+                throw new IllegalArgumentException("Error loading database " + uri);
         }
 
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -79,7 +79,7 @@ public class DinnerProvider extends ContentProvider {
             case DINNER_ID:
                 return CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalArgumentException("Unknown URI " + uri.toString() + " with match " + match);
+                throw new IllegalArgumentException("Unknown URI " + uri + " with match " + match);
         }
     }
 
@@ -91,7 +91,7 @@ public class DinnerProvider extends ContentProvider {
             case DINNERS:
                 return insertDinner(uri, values);
             default:
-                throw new IllegalArgumentException("insertion not supported for " + uri.toString());
+                throw new IllegalArgumentException("insertion not supported for " + uri);
         }
     }
 
@@ -131,7 +131,19 @@ public class DinnerProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+
+        final int match = URI_MATCHER.match(uri);
+        switch (match) {
+            case DINNERS:
+                return updateDinner(uri, values, selection, selectionArgs);
+            case DINNER_ID:
+                selection = _ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updateDinner(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Unsupported URI: " + uri.toString());
+        }
+
     }
 
     private Uri insertDinner(Uri uri, ContentValues values) {
@@ -141,6 +153,26 @@ public class DinnerProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
 
+    }
+
+    private int updateDinner(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+
+        // if there are no values to update, don't update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Otherwise, access writeable database
+        SQLiteDatabase database = dbHandler.getWritableDatabase();
+
+        int rowsUpdated = database.update(TABLE_DINNER, values, selection, selectionArgs);
+        if (rowsUpdated != 0) {
+            // notify listener that data has changed, and cursor needs to be updated
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // return the number of rows updated
+        return rowsUpdated;
     }
 
 

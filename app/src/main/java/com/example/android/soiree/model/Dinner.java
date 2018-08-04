@@ -9,13 +9,15 @@ public class Dinner implements Parcelable {
     private String starterId;
     private String mainId;
     private String puddingId;
+    private String guestList;
     private String recipeNotes;
 
-    public Dinner(String name, String starter, String main, String pudding, String notes) {
+    public Dinner(String name, String starter, String main, String pudding, String guests, String notes) {
         dinnerName = name;
         starterId = starter;
         mainId = main;
         puddingId = pudding;
+        guestList = guests;
         recipeNotes = notes;
     }
 
@@ -25,6 +27,7 @@ public class Dinner implements Parcelable {
         starterId = parcel.readString();
         mainId = parcel.readString();
         puddingId = parcel.readString();
+        guestList = parcel.readString();
         recipeNotes = parcel.readString();
     }
 
@@ -38,6 +41,7 @@ public class Dinner implements Parcelable {
     public String getPuddingId() {
         return puddingId;
     }
+    public String getGuestList() { return guestList; }
     public String getRecipeNotes() {
         return recipeNotes;
     }
@@ -53,6 +57,7 @@ public class Dinner implements Parcelable {
         dest.writeString(starterId);
         dest.writeString(mainId);
         dest.writeString(puddingId);
+        dest.writeString(guestList);
         dest.writeString(recipeNotes);
     }
 

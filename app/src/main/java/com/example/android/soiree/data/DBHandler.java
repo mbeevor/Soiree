@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
@@ -15,7 +16,7 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 public class DBHandler extends SQLiteOpenHelper {
 
     //Database Version and name
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "dinnerParty.db";
 
     private static final String SQL_CREATE_DINNER_TABLE =
@@ -26,6 +27,7 @@ public class DBHandler extends SQLiteOpenHelper {
                     + STARTER_ID + " TEXT, "
                     + MAIN_ID + " TEXT, "
                     + PUDDING_ID + " TEXT, "
+                    + GUEST_LIST + " TEXT, "
                     + RECIPE_NOTES + " TEXT);";
 
     // default constructor

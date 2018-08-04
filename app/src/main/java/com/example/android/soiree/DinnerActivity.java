@@ -16,17 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.soiree.Adapters.DinnerCursorAdapter;
-import com.example.android.soiree.Adapters.OnItemClickHandler;
 import com.example.android.soiree.model.Dinner;
 
 import butterknife.BindView;
@@ -34,13 +33,16 @@ import butterknife.ButterKnife;
 
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.COURSE;
+import static com.example.android.soiree.model.Keys.DEFAULT_GUEST_LIST;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
+import static com.example.android.soiree.model.Keys.URI_ID;
 
 
 public class DinnerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -51,6 +53,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     private String starterId;
     private String mainId;
     private String puddingId;
+    private String guestList;
     private String recipeNotes;
     @BindView(R.id.save_button)
     Button saveButton;
@@ -60,6 +63,8 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     CardView mainCard;
     @BindView(R.id.pudding_card)
     CardView puddingCard;
+    @BindView(R.id.guest_card)
+    CardView guestCard;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.starter_image)
@@ -68,12 +73,11 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     ImageView mainImage;
     @BindView(R.id.pudding_image)
     ImageView puddingImage;
-    @BindView(R.id.guest_image) ImageView guestImage;
+    @BindView(R.id.guest_image)
+    ImageView guestImage;
     @BindView(R.id.name_edit_text)
     EditText nameEditText;
-    @BindView(R.id.entered_name)
-    TextView enteredName;
-    String courseName;
+    private String courseName;
     private DinnerCursorAdapter dinnerCursorAdapter;
     private Uri currentDinnerUri;
     private String dinnerName;
@@ -122,71 +126,37 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
             setTitle(R.string.new_dinner_party);
             invalidateOptionsMenu();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                // validate a name has been entered
-                dinnerName = nameEditText.getText().toString().trim();
-                if (TextUtils.isEmpty(dinnerName)) {
-                    nameEditText.setError(getString(R.string.edit_text_empty_warning));
-                } else {
-                    createNewDinner();
-                    nameEditText.setVisibility(View.GONE);
-                    saveButton.setVisibility(View.GONE);
-                    setTitle(dinnerName);
+                    // validate a name has been entered
+                    dinnerName = nameEditText.getText().toString().trim();
+                    if (TextUtils.isEmpty(dinnerName)) {
+                        nameEditText.setError(getString(R.string.edit_text_empty_warning));
+                    } else {
+                        createNewDinner();
+                        nameEditText.setVisibility(View.GONE);
+                        saveButton.setVisibility(View.GONE);
+                        setTitle(dinnerName);
+                    }
                 }
-            }
-        });
+            });
 
-        // create layout for existing dinner
+            // create layout for existing dinner
         } else {
-            setTitle(R.string.existing_dinner_party);
+            Log.v("currentDinnerUri = ", currentDinnerUri.toString());
+
             nameEditText.setVisibility(View.GONE);
             saveButton.setVisibility(View.GONE);
-            enteredName.setVisibility(View.GONE);
             loadSavedDinner();
         }
-
-
-//        starterCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                courseName = getString(R.string.starter);
-//                showSelectedCourseIntent(courseName);
-//
-//
-//            }
-//        });
-//
-//        mainCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                courseName = getString(R.string.main);
-//                showSelectedCourseIntent(courseName);
-//
-//
-//            }
-//        });
-//
-//        puddingCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                courseName = getString(R.string.pudding);
-//                showSelectedCourseIntent(courseName);
-//
-//            }
-//        });
     }
 
     private void createNewDinner() {
 
         // create new dinner, using default values as no recipes have been selected yet
-        dinner = new Dinner(dinnerName, DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE);
+        dinner = new Dinner(dinnerName, DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_GUEST_LIST, DEFAULT_VALUE);
 
         // build new dinner for database
         ContentValues contentValues = new ContentValues();
@@ -194,6 +164,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
         contentValues.put(STARTER_ID, dinner.getStarterId());
         contentValues.put(MAIN_ID, dinner.getMainId());
         contentValues.put(PUDDING_ID, dinner.getPuddingId());
+        contentValues.put(GUEST_LIST, dinner.getGuestList());
         contentValues.put(RECIPE_NOTES, dinner.getRecipeNotes());
 
         // add dinner to database
@@ -207,11 +178,12 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    // method to launch intent when selecting a course
-    public void showSelectedCourseIntent(String courseName) {
+    // method to launch intent when selecting a course from a saved dinner
+    public void showSelectedCourseIntent(String courseName, Uri uri) {
 
         Intent showSelectedCourseIntent = new Intent(getApplicationContext(), CourseActivity.class);
         showSelectedCourseIntent.putExtra(COURSE, courseName);
+        showSelectedCourseIntent.putExtra(URI_ID, uri);
         startActivity(showSelectedCourseIntent);
 
     }
@@ -265,45 +237,73 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 STARTER_ID,
                 MAIN_ID,
                 PUDDING_ID,
+                GUEST_LIST,
                 RECIPE_NOTES,
         };
 
-        return new CursorLoader(this, CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(this, currentDinnerUri, projection, null, null, null);
 
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, final Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
 
         if (cursor.moveToFirst()) {
             int dinnerNameIndex = cursor.getColumnIndex(DINNER_NAME);
             int starterIdIndex = cursor.getColumnIndex(STARTER_ID);
             int mainIdIndex = cursor.getColumnIndex(MAIN_ID);
             int puddingIdIndex = cursor.getColumnIndex(PUDDING_ID);
+            int guestIdIndex = cursor.getColumnIndex(GUEST_LIST);
             int notesIdIndex = cursor.getColumnIndex(RECIPE_NOTES);
 
             dinnerName = cursor.getString(dinnerNameIndex);
             starterId = cursor.getString(starterIdIndex);
             mainId = cursor.getString(mainIdIndex);
             puddingId = cursor.getString(puddingIdIndex);
+            guestList = cursor.getString(guestIdIndex);
             recipeNotes = cursor.getString(notesIdIndex);
 
-            dinner = new Dinner(dinnerName, starterId, mainId, puddingId, recipeNotes);
+            dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
             setTitle(dinnerName);
+
+
+            starterCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseName = getString(R.string.starter);
+                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                    Toast.makeText(getApplicationContext(), ("current uri is " + currentDinnerUri.toString()), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            mainCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseName = getString(R.string.main);
+                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                }
+            });
+
+            puddingCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseName = getString(R.string.pudding);
+                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                }
+            });
+
+            guestCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseName = getString(R.string.guest_card_label);
+                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                }
+            });
         }
 
-
-        dinnerCursorAdapter = new DinnerCursorAdapter(cursor, new OnItemClickHandler() {
-            @Override
-            public void onItemClick(View item, int position) {
-
-                cursor.moveToPosition(position);
-
-            }
-        });
-
-
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
