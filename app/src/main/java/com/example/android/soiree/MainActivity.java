@@ -1,7 +1,13 @@
 package com.example.android.soiree;
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +17,25 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.android.soiree.Adapters.DinnerAdapter;
+import com.example.android.soiree.Adapters.DinnerCursorAdapter;
+import com.example.android.soiree.Adapters.OnItemClickHandler;
+import com.example.android.soiree.model.Dinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int DINNER_LOADER = 0;
+    private Dinner dinner;
 
     @BindView(R.id.new_fab)
     FloatingActionButton floatingActionButton;
@@ -26,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     TextView emptyTextView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    private DinnerAdapter dinnerAdapter;
-    public DinnerAdapter.DinnerPartyClickListener dinnerPartyClickListener;
+    private DinnerCursorAdapter dinnerCursorAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,30 +54,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        // set up adapter for recyclerview
-        dinnerAdapter = new DinnerAdapter(getApplicationContext(), new DinnerAdapter.DinnerPartyClickListener() {
-            @Override
-            public void onDinnerSelected(int position) {
-                dinnerPartyClickListener.onDinnerSelected(position);
-            }
-        });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, setGridColumns());
-        dinnerPartyListRecyclerView.setLayoutManager(gridLayoutManager);
-
-        // set recyclerView to have a fixed size so that all items in the list are the same size.
-        dinnerPartyListRecyclerView.setHasFixedSize(true);
-
-        dinnerPartyListRecyclerView.setAdapter(dinnerAdapter);
-        showDinnerParties();
-
+        showError();
+        loadSavedDinners();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(), DinnerActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    public void loadSavedDinners() {
+        getLoaderManager().initLoader(DINNER_LOADER, null, this);
     }
 
     // method to calculate size of Grid based on device configuration
@@ -96,4 +106,56 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // loader methods for handling displaying database fields
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        String[] projection = {
+                _ID,
+                DINNER_NAME,
+                STARTER_ID,
+                MAIN_ID,
+                PUDDING_ID,
+                RECIPE_NOTES,
+        };
+
+        return new CursorLoader(this, CONTENT_URI, projection, null, null, null);
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor cursor) {
+
+        dinnerCursorAdapter = new DinnerCursorAdapter(cursor, new OnItemClickHandler() {
+
+            @Override
+            public void onItemClick(View item, int position) {
+
+                cursor.moveToPosition(position);
+                Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
+                Uri currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position);
+                dinnerIntent.setData(currentDinnerUri);
+                startActivity(dinnerIntent);
+            }
+        });
+
+        RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this, setGridColumns());
+        dinnerPartyListRecyclerView.setLayoutManager(gridLayoutManager);
+
+        // set recyclerView to have a fixed size so that all items in the list are the same size.
+        dinnerPartyListRecyclerView.setHasFixedSize(true);
+        dinnerPartyListRecyclerView.setAdapter(dinnerCursorAdapter);
+        // show error view if no movies saved to favourites
+        if (dinnerCursorAdapter.getItemCount() == 0) {
+            showError();
+        } else {
+            showDinnerParties();
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        dinnerCursorAdapter.swapCursor(null);
+    }
 }

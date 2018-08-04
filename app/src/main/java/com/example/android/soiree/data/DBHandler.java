@@ -4,63 +4,29 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.METHOD_URL;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_ID;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_IMAGE;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NAME;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_RANK;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_DINNER;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_MAIN;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_PUDDING;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_STARTER;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 
 public class DBHandler extends SQLiteOpenHelper {
 
     //Database Version and name
-    private static final int DATABASE_VERSION = 2;
-    public static final String DATABASE_NAME = "dinnerPartyList.db";
-
-    private static final String SQL_CREATE_STARTER_TABLE =
-
-            "CREATE TABLE " + TABLE_STARTER + " ("
-                    + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + RECIPE_ID + " TEXT, "
-                    + RECIPE_IMAGE + " TEXT, "
-                    + METHOD_URL + " TEXT, "
-                    + RECIPE_NAME + " TEXT, "
-                    + RECIPE_RANK + " TEXT);";
-
-    private static final String SQL_CREATE_MAIN_TABLE =
-
-            "CREATE TABLE " + TABLE_MAIN + " ("
-                    + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + RECIPE_ID + " TEXT, "
-                    + RECIPE_IMAGE + " TEXT, "
-                    + METHOD_URL + " TEXT, "
-                    + RECIPE_NAME + " TEXT, "
-                    + RECIPE_RANK + " TEXT);";
-
-    private static final String SQL_CREATE_PUDDING_TABLE =
-
-            "CREATE TABLE " + TABLE_PUDDING + " ("
-                    + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + RECIPE_ID + " TEXT, "
-                    + RECIPE_IMAGE + " TEXT, "
-                    + METHOD_URL + " TEXT, "
-                    + RECIPE_NAME + " TEXT, "
-                    + RECIPE_RANK + " TEXT);";
+    private static final int DATABASE_VERSION = 4;
+    public static final String DATABASE_NAME = "dinnerParty.db";
 
     private static final String SQL_CREATE_DINNER_TABLE =
 
             "CREATE TABLE " + TABLE_DINNER + " ("
                     + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + DINNER_NAME + " TEXT NOT NULL, "
                     + STARTER_ID + " TEXT, "
                     + MAIN_ID + " TEXT, "
-                    + PUDDING_ID + " TEXT);";
+                    + PUDDING_ID + " TEXT, "
+                    + RECIPE_NOTES + " TEXT);";
 
     // default constructor
     public DBHandler(Context context) {
@@ -69,21 +35,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_STARTER_TABLE);
-        db.execSQL(SQL_CREATE_MAIN_TABLE);
-        db.execSQL(SQL_CREATE_PUDDING_TABLE);
-        db.execSQL(SQL_CREATE_DINNER_TABLE);
+       db.execSQL(SQL_CREATE_DINNER_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        // on upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STARTER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MAIN);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PUDDING);
+        // on upgrade drop older table
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DINNER);
-        // then, create new tables
+        // then, create new table
         onCreate(db);
     }
 }

@@ -81,7 +81,7 @@
                 android:id="@+id/main_heading"
                 style="@style/main_heading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/wide_margin"
                 android:layout_marginEnd="@dimen/expanded_title_margin_end"
                 android:layout_marginStart="@dimen/expanded_title_margin_start"
@@ -94,10 +94,11 @@
 
             <TextView
                 android:id="@+id/empty_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="@string/empty_view"
-                app:layout_constraintBottom_toBottomOf="@id/recyclerview_constraint_layout"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/main_heading" />
@@ -107,7 +108,7 @@
                 style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/recyclerview_constraint_layout"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/main_heading"/>

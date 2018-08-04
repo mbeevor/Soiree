@@ -11,11 +11,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.METHOD_URL;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_ID;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_IMAGE;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NAME;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_RANK;
+import static com.example.android.soiree.model.Keys.METHOD_URL;
+import static com.example.android.soiree.model.Keys.RECIPE_ID;
+import static com.example.android.soiree.model.Keys.RECIPE_IMAGE;
+import static com.example.android.soiree.model.Keys.RECIPE_NAME;
+import static com.example.android.soiree.model.Keys.RECIPE_RANK;
 
 public class QueryUtils {
 

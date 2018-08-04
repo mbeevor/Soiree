@@ -10,18 +10,30 @@
     <string name="starter">Starter</string>
     <string name="main">Main Course</string>
     <string name="pudding">Pudding</string>
-
+    <string name="action_delete_dinner">Delete</string>
+    <string name="new_dinner_party">New dinner party</string>
+    <string name="existing_dinner_party">Your dinner party</string>
 
     <!-- placeholder text -->
+    <string name="name_of_dinner">Dinner party name</string>
     <string name="empty_view">Make some dinner plans!</string>
+    <string name="save_button_text">Save</string>
+    <string name="starter_card_label">Starter</string>
+    <string name="main_card_label">Main</string>
+    <string name="pudding_card_label">Pudding</string>
+    <string name="guest_card_label">Dinner guests</string>
 
     <!-- alert strings -->
     <string name="add_recipe_to_dinner_party">Add selected recipe to dinner party?</string>
     <string name="confirm_text">Add to dinner party</string>
+    <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="edit_text_empty_warning">Please enter a name for your dinner party</string>
     <string name="recipe_added_to_dinner_party">Recipe has been saved to your dinner party.</string>
     <string name="recipe_failed_to_add_to_dinner_party">Error. Please try again.</string>
-
+    <string name="delete_successful">Dinner deleted</string>
+    <string name="unable_to_delete">Unable to delete dinner from database</string>
+    <string name="delete_warning_message">Are you sure you want to delete this dinner party? This can\'t be undone.</string>
 
 </resources>
 

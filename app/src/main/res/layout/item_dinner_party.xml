@@ -23,7 +23,7 @@
             android:id="@+id/dinner_party_label_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@drawable/snack"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,12 +33,13 @@
         <ImageView
             android:id="@+id/skimView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/photo_skim"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/photo_skim"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintStart_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/dinner_party_label"
@@ -48,11 +49,10 @@
             tools:text="Placeholder"
             android:gravity="bottom"
             android:layout_marginStart="@dimen/narrow_margin"
-            android:layout_marginEnd="@dimen/narrow_margin"
-            android:layout_marginBottom="@dimen/narrow_margin"
+            android:layout_margin="@dimen/narrow_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintStart_toEndOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
        
     </android.support.constraint.ConstraintLayout>
 

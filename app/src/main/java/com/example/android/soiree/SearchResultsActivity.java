@@ -1,12 +1,10 @@
 package com.example.android.soiree;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.android.soiree.Adapters.OnItemClickHandler;
 import com.example.android.soiree.Adapters.ResultsListAdapter;
 import com.example.android.soiree.AsyncTasks.AsyncTaskListener;
 import com.example.android.soiree.AsyncTasks.GetRecipeData;
@@ -28,8 +27,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -62,10 +59,9 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         // initialise database
         dbHandler = new DBHandler(this);
-        SQLiteDatabase database = dbHandler.getWritableDatabase();
 
         // create new adapter and assign on click listener to show alert dialog to add to dinner party
-        resultsListAdapter = new ResultsListAdapter(context, new ResultsListAdapter.OnItemClickHandler() {
+        resultsListAdapter = new ResultsListAdapter(context, new OnItemClickHandler() {
             @Override
             public void onItemClick(View item, int position) {
 
@@ -79,12 +75,6 @@ public class SearchResultsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO: add recipe to dinner party
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(DinnerEntry.RECIPE_ID, recipe.getRecipeId());
-                        contentValues.put(DinnerEntry.RECIPE_IMAGE, recipe.getRecipeImage());
-                        contentValues.put(DinnerEntry.METHOD_URL, recipe.getMethodUrl());
-                        contentValues.put(DinnerEntry.RECIPE_NAME, recipe.getRecipeTitle());
-                        contentValues.put(DinnerEntry.RECIPE_RANK, recipe.getRecipeRank());
 
                         // return to course details after adding recipe
                         Intent backToDinnerIntent = new Intent(context, CourseActivity.class);

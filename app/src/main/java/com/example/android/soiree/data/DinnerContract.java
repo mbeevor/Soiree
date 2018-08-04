@@ -25,26 +25,16 @@ public class DinnerContract {
         // MIME type for single item
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_DINNER;
 
-        // table names
-        public static final String TABLE_STARTER = "starter";
-        public static final String TABLE_MAIN = "main";
-        public static final String TABLE_PUDDING = "pudding";
+        // table name
         public static final String TABLE_DINNER = "dinner";
 
-        // common column name
-        public static final String _ID = BaseColumns._ID;
 
-        // dinner database column
+        public static final String _ID = BaseColumns._ID;
+        public static final String DINNER_NAME = "dinner_name";
         public static final String STARTER_ID = "starter_id";
         public static final String MAIN_ID = "main_id";
         public static final String PUDDING_ID = "pudding_id";
-
-        // database columns - same as API
-        public static final String RECIPE_ID = "recipe_id";
-        public static final String RECIPE_IMAGE = "image_url";
-        public static final String METHOD_URL = "source_url";
-        public static final String RECIPE_NAME = "title";
-        public static final String RECIPE_RANK = "social_rank";
+        public static final String RECIPE_NOTES = "recipe_notes";
 
     }
 }

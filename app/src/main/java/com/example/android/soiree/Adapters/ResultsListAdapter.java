@@ -35,10 +35,6 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         setHasStableIds(true);
     }
 
-    // interface for Handler
-    public interface OnItemClickHandler {
-        void onItemClick(View item, int position);
-    }
 
     @Override
     public long getItemId(int position) {
