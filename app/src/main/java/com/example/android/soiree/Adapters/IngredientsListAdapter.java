@@ -47,6 +47,13 @@ public class IngredientsListAdapter extends RecyclerView.Adapter<IngredientsList
 
             // TODO:
 
+                Ingredients ingredients = ingredientsList.get(position);
+                ArrayList<String> recipeTitle = ingredients.getIngredientItem();
+
+
+                IngredientsListAdapterViewHolder viewHolder = holder;
+                viewHolder.ingredientTextView.setText(recipeTitle.toString());
+
         }
     }
 

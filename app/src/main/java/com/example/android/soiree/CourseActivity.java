@@ -133,6 +133,8 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
                 }
             }
         });
+
+
     }
 
     @Override
@@ -156,8 +158,18 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         adapter.addFragment(new IngredientsFragment(), getString(R.string.ingredients_header));
         adapter.addFragment(new NotesFragment(), getString(R.string.notes_header));
         pager.setAdapter(adapter);
+    }
+
+    public Bundle dataForFragment() {
+
+        Bundle recipeBundleForFragment = new Bundle();
+        recipeBundleForFragment.putParcelable(DINNER, dinner);
+        recipeBundleForFragment.putString(COURSE, courseName);
+        return recipeBundleForFragment;
 
     }
+
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

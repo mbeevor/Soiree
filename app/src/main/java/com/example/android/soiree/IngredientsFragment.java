@@ -14,19 +14,34 @@ import com.example.android.soiree.Adapters.IngredientsListAdapter;
 import com.example.android.soiree.AsyncTasks.GetIngredientsData;
 import com.example.android.soiree.AsyncTasks.IngredientsAsyncTaskListener;
 import com.example.android.soiree.Utils.NetworkUtils;
+import com.example.android.soiree.model.Dinner;
 import com.example.android.soiree.model.Ingredients;
 
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.example.android.soiree.model.Keys.RECIPE_ID;
+import static com.example.android.soiree.model.Keys.COURSE;
+import static com.example.android.soiree.model.Keys.COURSE_MAIN;
+import static com.example.android.soiree.model.Keys.COURSE_PUDDING;
+import static com.example.android.soiree.model.Keys.COURSE_STARTER;
+import static com.example.android.soiree.model.Keys.COURSE_UNKNOWN;
+import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
+import static com.example.android.soiree.model.Keys.DINNER;
 
 public class IngredientsFragment extends Fragment {
 
     private RecyclerView ingredientsRecyclerView;
     public IngredientsListAdapter currentRecipeListAdapter;
     private ArrayList<Ingredients> ingredientsList;
-    private String recipeId;
+    private Dinner dinner;
+    private String dinnerName;
+    private String starterId;
+    private String mainId;
+    private String puddingId;
+    private String guestList;
+    private String recipeNotes;
+    private String courseName;
+    private int currentCourse;
 
     public IngredientsFragment() {
 
@@ -37,9 +52,40 @@ public class IngredientsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
-        savedInstanceState = getArguments();
-        if (savedInstanceState != null) {
-            recipeId = savedInstanceState.getString(RECIPE_ID);
+        CourseActivity activity = (CourseActivity) getActivity();
+        Bundle getData = activity.dataForFragment();
+        if (getData != null) {
+
+            courseName = getData.getString(COURSE);
+            dinner = getData.getParcelable(DINNER);
+
+            if (courseName != null) {
+                if (courseName.equals(getString(R.string.starter))) {
+                    currentCourse = COURSE_STARTER;
+                } else if (courseName.equals(getString(R.string.main))) {
+                    currentCourse = COURSE_MAIN;
+                } else if (courseName.equals(getString(R.string.pudding))) {
+                    currentCourse = COURSE_PUDDING;
+                } else {
+                    currentCourse = COURSE_UNKNOWN;
+                }
+            }
+
+            if (dinner != null) {
+                dinnerName = dinner.getDinnerName();
+                starterId = dinner.getStarterId();
+                mainId = dinner.getMainId();
+                puddingId = dinner.getPuddingId();
+                guestList = dinner.getGuestList();
+                recipeNotes = dinner.getRecipeNotes();
+            } else {
+                dinnerName = DEFAULT_VALUE;
+                starterId = DEFAULT_VALUE;
+                mainId = DEFAULT_VALUE;
+                puddingId = DEFAULT_VALUE;
+                guestList = DEFAULT_VALUE;
+                recipeNotes = DEFAULT_VALUE;
+            }
         }
 
         ingredientsRecyclerView = rootview.findViewById(R.id.ingredients_recyclerview);
@@ -51,8 +97,26 @@ public class IngredientsFragment extends Fragment {
         currentRecipeListAdapter = new IngredientsListAdapter(getContext());
         ingredientsRecyclerView.setAdapter(currentRecipeListAdapter);
 
-        loadIngredientsList(recipeId);
+        String recipeId;
 
+        switch (currentCourse) {
+            case COURSE_STARTER:
+                recipeId = dinner.getStarterId();
+                break;
+
+            case COURSE_MAIN:
+                recipeId = dinner.getMainId();
+                break;
+
+            case COURSE_PUDDING:
+                recipeId = dinner.getPuddingId();
+                break;
+
+            default:
+                recipeId = DEFAULT_VALUE;
+        }
+
+        loadIngredientsList(recipeId);
         return rootview;
 
     }
