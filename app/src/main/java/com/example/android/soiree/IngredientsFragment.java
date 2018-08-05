@@ -11,12 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.soiree.Adapters.IngredientsListAdapter;
-import com.example.android.soiree.AsyncTasks.GetRecipeDetailData;
+import com.example.android.soiree.AsyncTasks.GetIngredientsData;
 import com.example.android.soiree.AsyncTasks.IngredientsAsyncTaskListener;
 import com.example.android.soiree.Utils.NetworkUtils;
 import com.example.android.soiree.model.Dinner;
 import com.example.android.soiree.model.Ingredient;
-import com.example.android.soiree.model.RecipeDetail;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class IngredientsFragment extends Fragment {
 
     private RecyclerView ingredientsRecyclerView;
     public IngredientsListAdapter currentRecipeListAdapter;
-    private ArrayList<RecipeDetail> recipeDetailList;
+    private ArrayList<Ingredient> ingredientsList;
     private Dinner dinner;
     private String dinnerName;
     private String starterId;
@@ -126,7 +125,7 @@ public class IngredientsFragment extends Fragment {
 
         if (id != null) {
             URL resultUrl = NetworkUtils.resultUrl(id);
-            new GetRecipeDetailData(new GetIngredientsDataListener()).execute(resultUrl);
+            new GetIngredientsData(new GetIngredientsDataListener()).execute(resultUrl);
         }
 
     }
@@ -136,13 +135,13 @@ public class IngredientsFragment extends Fragment {
 
 
         @Override
-        public void onTaskComplete(ArrayList<RecipeDetail> list) {
+        public void onTaskComplete(ArrayList<Ingredient> list) {
 
-            recipeDetailList = list;
+            ingredientsList = list;
 
-            if (recipeDetailList != null) {
+            if (ingredientsList != null) {
                 ingredientsRecyclerView.setAdapter(currentRecipeListAdapter);
-                currentRecipeListAdapter.updateData(recipeDetailList);
+                currentRecipeListAdapter.updateData(ingredientsList);
 
             }
         }

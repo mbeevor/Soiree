@@ -4,23 +4,23 @@ import android.os.AsyncTask;
 
 import com.example.android.soiree.Utils.NetworkUtils;
 import com.example.android.soiree.Utils.QueryUtils;
-import com.example.android.soiree.model.RecipeDetail;
+import com.example.android.soiree.model.Ingredient;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GetRecipeDetailData extends AsyncTask<URL, Void, ArrayList<RecipeDetail>> {
+public class GetIngredientsData extends AsyncTask<URL, Void, ArrayList<Ingredient>> {
 
-    private ArrayList<RecipeDetail> recipeDetailList;
+    private ArrayList<Ingredient> ingredientsList;
     private IngredientsAsyncTaskListener delegate = null;
 
-    public GetRecipeDetailData(IngredientsAsyncTaskListener asyncTaskListener) {
+    public GetIngredientsData(IngredientsAsyncTaskListener asyncTaskListener) {
         delegate = asyncTaskListener;
     }
 
     @Override
-    protected ArrayList<RecipeDetail> doInBackground(URL... urls) {
+    protected ArrayList<Ingredient> doInBackground(URL... urls) {
 
         try {
 
@@ -30,8 +30,8 @@ public class GetRecipeDetailData extends AsyncTask<URL, Void, ArrayList<RecipeDe
                 String query = NetworkUtils.getResponseFromHttpUrl(url);
                 if (query != null) {
 
-                    recipeDetailList = QueryUtils.getRecipeDetailFromJson(query);
-                    return recipeDetailList;
+                    ingredientsList = QueryUtils.getRecipeDetailFromJson(query);
+                    return ingredientsList;
 
                 }
             }
@@ -39,15 +39,15 @@ public class GetRecipeDetailData extends AsyncTask<URL, Void, ArrayList<RecipeDe
             e.printStackTrace();
         }
 
-        return recipeDetailList;
+        return ingredientsList;
     }
 
     @Override
-    protected void onPostExecute(ArrayList<RecipeDetail> recipeDetail) {
-        recipeDetailList = recipeDetail;
+    protected void onPostExecute(ArrayList<Ingredient> ingredients) {
+        ingredientsList = ingredients;
 
-        if (recipeDetailList != null) {
-            delegate.onTaskComplete(recipeDetailList);
+        if (ingredientsList != null) {
+            delegate.onTaskComplete(ingredientsList);
         }
     }
 }
