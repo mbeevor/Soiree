@@ -37,9 +37,8 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
-import static com.example.android.soiree.model.Keys.COURSE;
-import static com.example.android.soiree.model.Keys.DEFAULT_GUEST_LIST;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
+import static com.example.android.soiree.model.Keys.DINNER;
 
 
 public class DinnerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -48,6 +47,11 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     private Dinner dinner;
     private String dinnerName;
+    private String starterId;
+    private String mainId;
+    private String puddingId;
+    private String guestList;
+    private String recipeNotes;
     @BindView(R.id.save_button)
     Button saveButton;
     @BindView(R.id.starter_card)
@@ -144,8 +148,14 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     private void createNewDinner() {
 
+        starterId = DEFAULT_VALUE;
+        mainId = DEFAULT_VALUE;
+        puddingId = DEFAULT_VALUE;
+        guestList = DEFAULT_VALUE;
+        recipeNotes = DEFAULT_VALUE;
+
         // create new dinner, using default values as no recipes have been selected yet
-        dinner = new Dinner(dinnerName, DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_VALUE, DEFAULT_GUEST_LIST, DEFAULT_VALUE);
+        dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
 
         // build new dinner for database
         ContentValues contentValues = new ContentValues();
@@ -168,10 +178,10 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     // method to launch intent when selecting a course from a saved dinner
-    public void showSelectedCourseIntent(String courseName, Uri uri) {
+    public void showSelectedCourseIntent(Dinner dinner, Uri uri) {
 
         Intent showSelectedCourseIntent = new Intent(getApplicationContext(), CourseActivity.class);
-        showSelectedCourseIntent.putExtra(COURSE, courseName);
+        showSelectedCourseIntent.putExtra(DINNER, dinner);
         showSelectedCourseIntent.setData(uri);
         startActivity(showSelectedCourseIntent);
 
@@ -237,42 +247,44 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-
         if (cursor.moveToFirst()) {
-            int dinnerNameIndex = cursor.getColumnIndex(DINNER_NAME);
-            dinnerName = cursor.getString(dinnerNameIndex);
-            setTitle(dinnerName);
 
+            dinnerName = cursor.getString(cursor.getColumnIndex(DINNER_NAME));
+            starterId = cursor.getString(cursor.getColumnIndex(STARTER_ID));
+            mainId = cursor.getString(cursor.getColumnIndex(MAIN_ID));
+            puddingId = cursor.getString(cursor.getColumnIndex(PUDDING_ID));
+            guestList =  cursor.getString(cursor.getColumnIndex(GUEST_LIST));
+            recipeNotes = cursor.getString(cursor.getColumnIndex(RECIPE_NOTES));
+
+            // Load saved dinner
+            dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
+            setTitle(dinnerName);
 
             starterCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.starter);
-                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                    showSelectedCourseIntent(dinner, currentDinnerUri);
                 }
             });
 
             mainCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.main);
-                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                    showSelectedCourseIntent(dinner, currentDinnerUri);
                 }
             });
 
             puddingCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.pudding);
-                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                    showSelectedCourseIntent(dinner, currentDinnerUri);
                 }
             });
 
             guestCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.guest_card_label);
-                    showSelectedCourseIntent(courseName, currentDinnerUri);
+                    showSelectedCourseIntent(dinner, currentDinnerUri);
                 }
             });
         }

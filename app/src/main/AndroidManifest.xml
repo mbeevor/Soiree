@@ -25,7 +25,6 @@
         </activity>
         <activity
             android:name=".CourseActivity"
-            android:launchMode="singleTop"
             android:parentActivityName=".DinnerActivity">
         </activity>
         <activity

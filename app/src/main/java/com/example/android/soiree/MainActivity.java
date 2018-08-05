@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.example.android.soiree.Adapters.DinnerCursorAdapter;
 import com.example.android.soiree.Adapters.OnItemClickHandler;
-import com.example.android.soiree.model.Dinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +35,6 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DINNER_LOADER = 0;
-    private Dinner dinner;
 
     @BindView(R.id.new_fab)
     FloatingActionButton floatingActionButton;

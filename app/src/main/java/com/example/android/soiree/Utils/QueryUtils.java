@@ -55,4 +55,43 @@ public class QueryUtils {
 
         return recipesList;
     }
+
+//    public static ArrayList<Ingredient> getRecipeDetailFromJson(String recipesJson) {
+//
+//        if (TextUtils.isEmpty(recipesJson)) {
+//            return null;
+//        }
+//
+//        ArrayList<Ingredient> ingredientsList = new ArrayList<>();
+//
+//        try {
+//
+//            JSONObject resultsObject = new JSONObject(recipesJson);
+//
+//            JSONObject recipeObject = resultsObject.getJSONObject(Keys.RECIPE);
+//
+//            String recipeUrl = recipeObject.getString(SOURCE_URL);
+//
+//            JSONArray ingredientsArray = recipeObject.getJSONArray(Keys.RECIPE_INGREDIENTS);
+//
+//            for (int i = 0; i < ingredientsArray.length(); i++) {
+//
+//                JSONObject currentRecipe = ingredientsArray.getJSONObject(i);
+//
+//                String ingredients = currentRecipe.getString(RECIPE_NAME);
+//
+//                Ingredient ingredient = new Ingredient(ingredients, recipeUrl);
+//                ingredientsList.add(ingredient);
+//
+//            }
+//
+//
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return ingredientsList;
+//    }
+
 }

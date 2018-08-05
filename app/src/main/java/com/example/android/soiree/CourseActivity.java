@@ -2,6 +2,7 @@ package com.example.android.soiree;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -20,8 +21,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.android.soiree.model.Dinner;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
@@ -40,6 +42,7 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
+import static com.example.android.soiree.model.Keys.DINNER;
 
 public class CourseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -52,6 +55,7 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
     private String puddingId;
     private String guestList;
     private String recipeNotes;
+    private String courseName;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.viewpager)
@@ -60,8 +64,6 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
     TabLayout tabLayout;
     @BindView(R.id.search_fab)
     FloatingActionButton floatingActionButton;
-    private String courseName;
-    private int currentCourse;
     private Uri currentDinnerUri;
     private Intent searchActivity;
     Context context = this;
@@ -73,11 +75,25 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_course);
         ButterKnife.bind(this);
 
-        // get intent from dinner party
-        final Intent getIntent = getIntent();
+        // get intent from launching activity
+        Intent getIntent = getIntent();
+        dinner = getIntent.getParcelableExtra(DINNER);
         courseName = getIntent.getStringExtra(COURSE);
         currentDinnerUri = getIntent.getData();
-        starterId = getIntent.getStringExtra(STARTER_ID);
+
+        if (dinner != null) {
+            starterId = dinner.getStarterId();
+            mainId = dinner.getMainId();
+            puddingId = dinner.getPuddingId();
+            guestList = dinner.getGuestList();
+            recipeNotes = dinner.getRecipeNotes();
+        } else {
+            starterId = DEFAULT_VALUE;
+            mainId = DEFAULT_VALUE;
+            puddingId = DEFAULT_VALUE;
+            guestList = DEFAULT_VALUE;
+            recipeNotes = DEFAULT_VALUE;
+        }
 
         searchActivity = new Intent(getApplicationContext(), SearchActivity.class);
 
@@ -106,39 +122,25 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
                  * and we can run a search to find a recipe. Otherwise, you will be warned that data will be lost before
                  * you start a new search.
                  */
-                if (starterId != null || starterId.equals(DEFAULT_VALUE) || mainId.equals(DEFAULT_VALUE) || puddingId.equals(DEFAULT_VALUE)) {
-                    searchActivity.putExtra(COURSE, courseName);
-                    startActivity(searchActivity);
-                    Log.v("starterID is = ", starterId);
+                if ((starterId != null && starterId.equals(DEFAULT_VALUE)) ||
+                        (mainId != null && mainId.equals(DEFAULT_VALUE)) ||
+                        (puddingId != null && puddingId.equals(DEFAULT_VALUE))) {
+                    searchRecipes();
                 } else {
-                    // alert dialog when FAB selected and recipe already saved
-                    Log.v("starterID is = ", starterId);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(R.string.replace_saved_recipe);
-
-                    builder.setPositiveButton(R.string.confirm_replace_text, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(searchActivity);
-                        }
-                    });
-
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // user clicks cancel
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                    warnReplaceRecipe();
                 }
             }
         });
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        if (currentDinnerUri != null) {
+            updateSavedDinner();
+        }
+    }
 
     private void loadSavedDinner() {
 
@@ -235,4 +237,61 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         intent.setData(currentDinnerUri);
         super.onBackPressed();
     }
+
+    private void updateSavedDinner() {
+
+        // update current dinner in database
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DINNER_NAME, dinnerName);
+        contentValues.put(STARTER_ID, starterId);
+        contentValues.put(MAIN_ID, mainId);
+        contentValues.put(PUDDING_ID, puddingId);
+        contentValues.put(GUEST_LIST, guestList);
+        contentValues.put(RECIPE_NOTES, recipeNotes);
+
+        if (currentDinnerUri != null) {
+            // update dinner in database
+            int rowsAffected = getContentResolver().update(currentDinnerUri, contentValues, null, null);
+            if (rowsAffected != 0) {
+                Toast.makeText(this, "Dinner updated successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Dinner update failed", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            currentDinnerUri = getContentResolver().insert(CONTENT_URI, contentValues);
+        }
+        loadSavedDinner();
+    }
+
+    public void warnReplaceRecipe() {
+        // alert dialog when FAB selected and recipe already saved
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.replace_saved_recipe);
+
+        builder.setPositiveButton(R.string.confirm_replace_text, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                searchRecipes();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicks cancel
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void searchRecipes() {
+        searchActivity.putExtra(COURSE, courseName);
+        searchActivity.putExtra(DINNER, dinner);
+        searchActivity.setData(currentDinnerUri);
+        startActivity(searchActivity);
+    }
+
 }

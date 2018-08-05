@@ -3,29 +3,32 @@ package com.example.android.soiree;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
+import com.example.android.soiree.model.Dinner;
 import com.example.android.soiree.model.Keys;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.example.android.soiree.model.Keys.COURSE;
+import static com.example.android.soiree.model.Keys.DINNER;
 
 public class SearchActivity extends AppCompatActivity {
 
-    FragmentManager fragmentManager = getSupportFragmentManager();
     public String searchQuery;
+    private Dinner dinner;
     @BindView(R.id.search_bar)
     SearchView searchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private Uri currentDinnerUri;
     private String courseName;
 
     @Override
@@ -34,7 +37,9 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.acitivity_search);
         ButterKnife.bind(this);
         Intent getIntent = getIntent();
+        dinner = getIntent.getParcelableExtra(DINNER);
         courseName = getIntent.getStringExtra(COURSE);
+        currentDinnerUri = getIntent.getData();
 
         if (courseName != null) {
             setTitle(courseName);
@@ -65,10 +70,10 @@ public class SearchActivity extends AppCompatActivity {
 
         if (courseName != null) {
             Intent searchResultsIntent = new Intent(this, SearchResultsActivity.class);
-            Bundle queryForSearchResults = new Bundle();
-            queryForSearchResults.putString(Keys.QUERY, query);
+            searchResultsIntent.putExtra(Keys.QUERY, query);
             searchResultsIntent.putExtra(COURSE, courseName);
-            searchResultsIntent.putExtras(queryForSearchResults);
+            searchResultsIntent.putExtra(DINNER, dinner);
+            searchResultsIntent.setData(currentDinnerUri);
             startActivity(searchResultsIntent);
         }
     }

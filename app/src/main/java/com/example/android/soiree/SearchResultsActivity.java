@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import com.example.android.soiree.AsyncTasks.AsyncTaskListener;
 import com.example.android.soiree.AsyncTasks.GetRecipeData;
 import com.example.android.soiree.Utils.NetworkUtils;
 import com.example.android.soiree.data.DBHandler;
+import com.example.android.soiree.model.Dinner;
 import com.example.android.soiree.model.Keys;
 import com.example.android.soiree.model.Recipe;
 
@@ -28,12 +30,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
 import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.COURSE_MAIN;
 import static com.example.android.soiree.model.Keys.COURSE_PUDDING;
 import static com.example.android.soiree.model.Keys.COURSE_STARTER;
 import static com.example.android.soiree.model.Keys.COURSE_UNKNOWN;
+import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
+import static com.example.android.soiree.model.Keys.DINNER;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
@@ -41,22 +44,33 @@ public class SearchResultsActivity extends AppCompatActivity {
     private String searchQuery;
     private ArrayList<Recipe> recipesList;
     private Recipe recipe;
-    @BindView(R.id.search_results_recyclerview) RecyclerView resultsRecyclerView;
+    @BindView(R.id.search_results_recyclerview)
+    RecyclerView resultsRecyclerView;
     private ResultsListAdapter resultsListAdapter;
-    private String courseName;
     private int currentCourse;
+    private Uri currentDinnerUri;
+    private Dinner dinner;
+    private String dinnerName;
+    private String starterId;
+    private String mainId;
+    private String puddingId;
+    private String guestList;
+    private String recipeNotes;
+    private String courseName;
     private DBHandler dbHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle searchResultsIntent = getIntent().getExtras();
         setContentView(R.layout.activity_search_results);
         ButterKnife.bind(this);
-        courseName = searchResultsIntent.getString(COURSE);
-        searchQuery = searchResultsIntent.getString(Keys.QUERY);
+        Intent searchResultsIntent = getIntent();
+        courseName = searchResultsIntent.getStringExtra(COURSE);
+        searchQuery = searchResultsIntent.getStringExtra(Keys.QUERY);
+        dinner = searchResultsIntent.getParcelableExtra(DINNER);
+        currentDinnerUri = searchResultsIntent.getData();
 
-        if (searchQuery == null ) {
+        if (searchQuery == null) {
             searchQuery = "";
         }
 
@@ -70,6 +84,20 @@ public class SearchResultsActivity extends AppCompatActivity {
             } else {
                 currentCourse = COURSE_UNKNOWN;
             }
+        }
+
+        if (dinner != null) {
+            starterId = dinner.getStarterId();
+            mainId = dinner.getMainId();
+            puddingId = dinner.getPuddingId();
+            guestList = dinner.getGuestList();
+            recipeNotes = dinner.getRecipeNotes();
+        } else {
+            starterId = DEFAULT_VALUE;
+            mainId = DEFAULT_VALUE;
+            puddingId = DEFAULT_VALUE;
+            guestList = DEFAULT_VALUE;
+            recipeNotes = DEFAULT_VALUE;
         }
 
         // create GridLayoutManager for results
@@ -95,20 +123,31 @@ public class SearchResultsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Intent backToDinnerIntent = new Intent(context, CourseActivity.class);
+                        Intent backToCourseIntent = new Intent(context, CourseActivity.class);
 
-                        // TODO: add recipe to dinner party
                         switch (currentCourse) {
                             case COURSE_STARTER:
-                                String starterId = recipe.getRecipeId();
-                                backToDinnerIntent.putExtra(COURSE, currentCourse);
-                                backToDinnerIntent.putExtra(STARTER_ID, starterId);
+                                starterId = recipe.getRecipeId();
+                                break;
 
+                            case COURSE_MAIN:
+                                mainId = recipe.getRecipeId();
+                                break;
+
+                            case COURSE_PUDDING:
+                                puddingId = recipe.getRecipeId();
+                                break;
+
+                            default:
 
                         }
 
                         // return to course details after adding recipe
-                        startActivity(backToDinnerIntent);
+                        dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
+                        backToCourseIntent.putExtra(COURSE, courseName);
+                        backToCourseIntent.putExtra(DINNER, dinner);
+                        backToCourseIntent.setData(currentDinnerUri);
+                        startActivity(backToCourseIntent);
                         Toast.makeText(getApplicationContext(), R.string.recipe_added_to_dinner_party, Toast.LENGTH_SHORT).show();
                     }
                 });
