@@ -37,6 +37,7 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
+import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 import static com.example.android.soiree.model.Keys.DINNER;
 
@@ -47,6 +48,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     private Dinner dinner;
     private String dinnerName;
+    private String courseName;
     private String starterId;
     private String mainId;
     private String puddingId;
@@ -74,7 +76,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     ImageView guestImage;
     @BindView(R.id.name_edit_text)
     EditText nameEditText;
-    private String courseName;
     private Uri currentDinnerUri;
 
 
@@ -177,16 +178,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    // method to launch intent when selecting a course from a saved dinner
-    public void showSelectedCourseIntent(Dinner dinner, Uri uri) {
-
-        Intent showSelectedCourseIntent = new Intent(getApplicationContext(), CourseActivity.class);
-        showSelectedCourseIntent.putExtra(DINNER, dinner);
-        showSelectedCourseIntent.setData(uri);
-        startActivity(showSelectedCourseIntent);
-
-    }
-
     private void confirmDeletion() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -263,37 +254,52 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
             starterCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showSelectedCourseIntent(dinner, currentDinnerUri);
+                    courseName = getString(R.string.starter);
+                    showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });
 
             mainCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showSelectedCourseIntent(dinner, currentDinnerUri);
+                    courseName = getString(R.string.main);
+                    showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });
 
             puddingCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showSelectedCourseIntent(dinner, currentDinnerUri);
+                    courseName = getString(R.string.pudding);
+                    showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });
 
             guestCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showSelectedCourseIntent(dinner, currentDinnerUri);
+                    courseName = getString(R.string.guest_card_label);
+                    showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });
         }
 
     }
 
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+    // method to launch intent when selecting a course from a saved dinner
+    public void showSelectedCourseIntent(Dinner dinner, String course, Uri uri) {
+
+        Intent showSelectedCourseIntent = new Intent(getApplicationContext(), CourseActivity.class);
+        showSelectedCourseIntent.putExtra(DINNER, dinner);
+        showSelectedCourseIntent.putExtra(COURSE, course);
+        showSelectedCourseIntent.setData(uri);
+        startActivity(showSelectedCourseIntent);
+
+    }
+
 }

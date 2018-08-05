@@ -87,12 +87,14 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
 
         if (dinner != null) {
+            dinnerName = dinner.getDinnerName();
             starterId = dinner.getStarterId();
             mainId = dinner.getMainId();
             puddingId = dinner.getPuddingId();
             guestList = dinner.getGuestList();
             recipeNotes = dinner.getRecipeNotes();
         } else {
+            dinnerName = DEFAULT_VALUE;
             starterId = DEFAULT_VALUE;
             mainId = DEFAULT_VALUE;
             puddingId = DEFAULT_VALUE;

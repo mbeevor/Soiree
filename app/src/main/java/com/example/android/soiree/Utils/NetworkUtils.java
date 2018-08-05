@@ -1,7 +1,6 @@
 package com.example.android.soiree.Utils;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.android.soiree.model.Keys;
 
@@ -14,12 +13,28 @@ import java.util.Scanner;
 
 import static com.example.android.soiree.model.Keys.API_KEY;
 import static com.example.android.soiree.model.Keys.SEARCH_QUERY;
+import static com.example.android.soiree.model.Keys.SEARCH_RECIPE_ID;
 
 public class NetworkUtils {
 
     public static URL queryUrl(String query) {
 
         String combinedUri = Keys.BASE_URL + API_KEY + SEARCH_QUERY + query;
+        Uri builtUri = Uri.parse(combinedUri).buildUpon().build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL resultUrl(String recipeId) {
+
+        String combinedUri = Keys.RECIPE_URL + API_KEY + SEARCH_RECIPE_ID + recipeId;
         Uri builtUri = Uri.parse(combinedUri).buildUpon().build();
 
         URL url = null;

@@ -2,6 +2,7 @@ package com.example.android.soiree.Utils;
 
 import android.text.TextUtils;
 
+import com.example.android.soiree.model.Ingredients;
 import com.example.android.soiree.model.Keys;
 import com.example.android.soiree.model.Recipe;
 
@@ -16,6 +17,7 @@ import static com.example.android.soiree.model.Keys.RECIPE_ID;
 import static com.example.android.soiree.model.Keys.RECIPE_IMAGE;
 import static com.example.android.soiree.model.Keys.RECIPE_NAME;
 import static com.example.android.soiree.model.Keys.RECIPE_RANK;
+import static com.example.android.soiree.model.Keys.SOURCE_URL;
 
 public class QueryUtils {
 
@@ -42,11 +44,10 @@ public class QueryUtils {
                 String recipeImage = currentRecipe.getString(RECIPE_IMAGE);
                 String recipeRank = currentRecipe.getString(RECIPE_RANK);
 
-                Recipe recipe = new Recipe(recipeTitle, methodUrl, recipeId, recipeImage,recipeRank);
+                Recipe recipe = new Recipe(recipeTitle, methodUrl, recipeId, recipeImage, recipeRank);
                 recipesList.add(recipe);
 
             }
-
 
 
         } catch (JSONException e) {
@@ -56,42 +57,41 @@ public class QueryUtils {
         return recipesList;
     }
 
-//    public static ArrayList<Ingredient> getRecipeDetailFromJson(String recipesJson) {
-//
-//        if (TextUtils.isEmpty(recipesJson)) {
-//            return null;
-//        }
-//
-//        ArrayList<Ingredient> ingredientsList = new ArrayList<>();
-//
-//        try {
-//
-//            JSONObject resultsObject = new JSONObject(recipesJson);
-//
-//            JSONObject recipeObject = resultsObject.getJSONObject(Keys.RECIPE);
-//
-//            String recipeUrl = recipeObject.getString(SOURCE_URL);
-//
-//            JSONArray ingredientsArray = recipeObject.getJSONArray(Keys.RECIPE_INGREDIENTS);
-//
-//            for (int i = 0; i < ingredientsArray.length(); i++) {
-//
-//                JSONObject currentRecipe = ingredientsArray.getJSONObject(i);
-//
-//                String ingredients = currentRecipe.getString(RECIPE_NAME);
-//
-//                Ingredient ingredient = new Ingredient(ingredients, recipeUrl);
-//                ingredientsList.add(ingredient);
-//
-//            }
-//
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return ingredientsList;
-//    }
+    public static ArrayList<Ingredients> getRecipeDetailFromJson(String recipesJson) {
+
+        if (TextUtils.isEmpty(recipesJson)) {
+            return null;
+        }
+
+        ArrayList<Ingredients> recipeDetailList = new ArrayList<>();
+
+        try {
+
+            JSONObject resultsObject = new JSONObject(recipesJson);
+
+            JSONObject recipeObject = resultsObject.getJSONObject(Keys.RECIPE);
+
+            String recipeUrl = recipeObject.getString(SOURCE_URL);
+
+            JSONArray ingredientsArray = recipeObject.getJSONArray(Keys.RECIPE_INGREDIENTS);
+
+            ArrayList<String> ingredientsArrayList = new ArrayList<>();
+
+            for (int i = 0; i < ingredientsArray.length(); i++) {
+
+                ingredientsArrayList.add(ingredientsArray.getString(i));
+
+            }
+
+            Ingredients ingredients = new Ingredients(ingredientsArrayList);
+
+            recipeDetailList.add(ingredients);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return recipeDetailList;
+    }
 
 }

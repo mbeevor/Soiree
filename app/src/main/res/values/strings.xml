@@ -6,7 +6,7 @@
     <string name="ingredients_header">Ingredients</string>
     <string name="notes_header">Notes</string>
     <string name="recipe_button">View recipe</string>
-    <string name="search_hint">Search by ingredient</string>
+    <string name="search_hint">Search by currentRecipe</string>
     <string name="starter">Starter</string>
     <string name="main">Main Course</string>
     <string name="pudding">Pudding</string>

@@ -81,20 +81,6 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         courseName = getIntent.getStringExtra(COURSE);
         currentDinnerUri = getIntent.getData();
 
-        if (dinner != null) {
-            starterId = dinner.getStarterId();
-            mainId = dinner.getMainId();
-            puddingId = dinner.getPuddingId();
-            guestList = dinner.getGuestList();
-            recipeNotes = dinner.getRecipeNotes();
-        } else {
-            starterId = DEFAULT_VALUE;
-            mainId = DEFAULT_VALUE;
-            puddingId = DEFAULT_VALUE;
-            guestList = DEFAULT_VALUE;
-            recipeNotes = DEFAULT_VALUE;
-        }
-
         searchActivity = new Intent(getApplicationContext(), SearchActivity.class);
 
         // assign toolbar to activity, and enable back button in action bar
@@ -105,6 +91,22 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         // set up view pager and tablayout
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        if (dinner != null) {
+            dinnerName = dinner.getDinnerName();
+            starterId = dinner.getStarterId();
+            mainId = dinner.getMainId();
+            puddingId = dinner.getPuddingId();
+            guestList = dinner.getGuestList();
+            recipeNotes = dinner.getRecipeNotes();
+        } else {
+            dinnerName = DEFAULT_VALUE;
+            starterId = DEFAULT_VALUE;
+            mainId = DEFAULT_VALUE;
+            puddingId = DEFAULT_VALUE;
+            guestList = DEFAULT_VALUE;
+            recipeNotes = DEFAULT_VALUE;
+        }
 
         if (courseName != null) {
             setTitle(courseName);
