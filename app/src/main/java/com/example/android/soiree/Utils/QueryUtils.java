@@ -2,7 +2,8 @@ package com.example.android.soiree.Utils;
 
 import android.text.TextUtils;
 
-import com.example.android.soiree.model.Ingredients;
+import com.example.android.soiree.model.Ingredient;
+import com.example.android.soiree.model.RecipeDetail;
 import com.example.android.soiree.model.Keys;
 import com.example.android.soiree.model.Recipe;
 
@@ -57,13 +58,13 @@ public class QueryUtils {
         return recipesList;
     }
 
-    public static ArrayList<Ingredients> getRecipeDetailFromJson(String recipesJson) {
+    public static ArrayList<RecipeDetail> getRecipeDetailFromJson(String recipesJson) {
 
         if (TextUtils.isEmpty(recipesJson)) {
             return null;
         }
 
-        ArrayList<Ingredients> recipeDetailList = new ArrayList<>();
+        ArrayList<RecipeDetail> recipeDetailList = new ArrayList<>();
 
         try {
 
@@ -75,17 +76,19 @@ public class QueryUtils {
 
             JSONArray ingredientsArray = recipeObject.getJSONArray(Keys.RECIPE_INGREDIENTS);
 
-            ArrayList<String> ingredientsArrayList = new ArrayList<>();
+            ArrayList<Ingredient> ingredientsArrayList = new ArrayList<>();
 
             for (int i = 0; i < ingredientsArray.length(); i++) {
 
-                ingredientsArrayList.add(ingredientsArray.getString(i));
+                String ingredientItem = ingredientsArray.getString(i);
+
+                Ingredient ingredient = new Ingredient(ingredientItem);
+                ingredientsArrayList.add(ingredient);
 
             }
 
-            Ingredients ingredients = new Ingredients(ingredientsArrayList);
-
-            recipeDetailList.add(ingredients);
+            RecipeDetail recipeDetail = new RecipeDetail(ingredientsArrayList, recipeUrl);
+            recipeDetailList.add(recipeDetail);
 
         } catch (JSONException e) {
             e.printStackTrace();

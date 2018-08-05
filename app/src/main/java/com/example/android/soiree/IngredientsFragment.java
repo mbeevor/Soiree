@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.soiree.Adapters.IngredientsListAdapter;
-import com.example.android.soiree.AsyncTasks.GetIngredientsData;
+import com.example.android.soiree.AsyncTasks.GetRecipeDetailData;
 import com.example.android.soiree.AsyncTasks.IngredientsAsyncTaskListener;
 import com.example.android.soiree.Utils.NetworkUtils;
 import com.example.android.soiree.model.Dinner;
-import com.example.android.soiree.model.Ingredients;
+import com.example.android.soiree.model.Ingredient;
+import com.example.android.soiree.model.RecipeDetail;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class IngredientsFragment extends Fragment {
 
     private RecyclerView ingredientsRecyclerView;
     public IngredientsListAdapter currentRecipeListAdapter;
-    private ArrayList<Ingredients> ingredientsList;
+    private ArrayList<RecipeDetail> recipeDetailList;
     private Dinner dinner;
     private String dinnerName;
     private String starterId;
@@ -90,7 +91,7 @@ public class IngredientsFragment extends Fragment {
 
         ingredientsRecyclerView = rootview.findViewById(R.id.ingredients_recyclerview);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false );
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         ingredientsRecyclerView.setLayoutManager(linearLayoutManager);
         ingredientsRecyclerView.setHasFixedSize(true);
 
@@ -123,29 +124,30 @@ public class IngredientsFragment extends Fragment {
 
     public void loadIngredientsList(String id) {
 
-            if (id != null) {
-                URL resultUrl = NetworkUtils.resultUrl(id);
-                new GetIngredientsData(new GetIngredientsDataListener()).execute(resultUrl);
-            }
-
+        if (id != null) {
+            URL resultUrl = NetworkUtils.resultUrl(id);
+            new GetRecipeDetailData(new GetIngredientsDataListener()).execute(resultUrl);
         }
+
+    }
 
     // initiate AsyncTask to return list of ingredients and attach to adapter
     public class GetIngredientsDataListener implements IngredientsAsyncTaskListener {
 
+
         @Override
-        public void onTaskComplete(ArrayList<Ingredients> list) {
+        public void onTaskComplete(ArrayList<RecipeDetail> list) {
 
-            ingredientsList = list;
+            recipeDetailList = list;
 
-            if (ingredientsList != null) {
+            if (recipeDetailList != null) {
                 ingredientsRecyclerView.setAdapter(currentRecipeListAdapter);
-                currentRecipeListAdapter.updateData(ingredientsList);
+                currentRecipeListAdapter.updateData(recipeDetailList);
 
             }
         }
     }
-
 }
+
 
 

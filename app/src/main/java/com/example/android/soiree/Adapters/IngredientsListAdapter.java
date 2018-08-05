@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.soiree.R;
-import com.example.android.soiree.model.Ingredients;
+import com.example.android.soiree.model.Ingredient;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 public class IngredientsListAdapter extends RecyclerView.Adapter<IngredientsListAdapter.IngredientsListAdapterViewHolder> {
 
-    ArrayList<Ingredients> ingredientsList;
+    private ArrayList<Ingredient> ingredientsList;
     private Context context;
 
     public IngredientsListAdapter(Context activity) {
@@ -45,20 +45,18 @@ public class IngredientsListAdapter extends RecyclerView.Adapter<IngredientsList
 
         if (ingredientsList != null) {
 
-            // TODO:
 
-                Ingredients ingredients = ingredientsList.get(position);
-                ArrayList<String> recipeTitle = ingredients.getIngredientItem();
-
+                Ingredient ingredient = ingredientsList.get(position);
+                String ingredientItem = ingredient.getIngredientItem();
 
                 IngredientsListAdapterViewHolder viewHolder = holder;
-                viewHolder.ingredientTextView.setText(recipeTitle.toString());
+                viewHolder.ingredientTextView.setText(ingredientItem);
 
         }
     }
 
     // notify the app that data has changed to refresh the view
-    public void updateData(ArrayList<Ingredients> ingredients) {
+    public void updateData(ArrayList<Ingredient> ingredients) {
 
         if (ingredients != null)
             ingredientsList = new ArrayList<>(ingredients);

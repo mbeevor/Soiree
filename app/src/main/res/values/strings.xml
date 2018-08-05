@@ -17,7 +17,7 @@
     <!-- placeholder text -->
     <string name="name_of_dinner">Dinner party name</string>
     <string name="empty_view">Make some dinner plans!</string>
-    <string name="empty_ingredients_view">Add a recipe to see the ingredients.</string>
+    <string name="empty_ingredients_view">Add a recipe to see the recipeDetail.</string>
     <string name="empty_notes_view">Store your recipe notes here.</string>
     <string name="save_button_text">Save</string>
     <string name="starter_card_label">Starter</string>
