@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.soiree.Adapters.OnItemClickHandler;
@@ -61,6 +62,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     private String searchQuery;
     private ArrayList<Recipe> recipesList;
     private Recipe recipe;
+    @BindView(R.id.search_progress_bar)
+    ProgressBar searchProgressBar;
     @BindView(R.id.search_results_recyclerview)
     RecyclerView resultsRecyclerView;
     private ResultsListAdapter resultsListAdapter;
@@ -193,8 +196,10 @@ public class SearchResultsActivity extends AppCompatActivity {
             }
         });
 
+        searchProgressBar.setVisibility(View.VISIBLE);
         resultsRecyclerView.setAdapter(resultsListAdapter);
         loadResults(searchQuery);
+
     }
 
 
@@ -204,6 +209,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         if (url != null) {
             URL searchUrl = NetworkUtils.queryUrl(url);
             new GetRecipeData(new GetRecipeDataListener()).execute(searchUrl);
+            searchProgressBar.setVisibility(View.GONE);
         }
 
     }

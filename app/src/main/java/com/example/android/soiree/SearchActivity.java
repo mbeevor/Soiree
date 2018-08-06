@@ -33,8 +33,6 @@ public class SearchActivity extends AppCompatActivity {
     SearchView searchView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.search_progress_bar)
-    ProgressBar searchProgressBar;
     private Uri currentDinnerUri;
     private String courseName;
 
@@ -89,7 +87,6 @@ public class SearchActivity extends AppCompatActivity {
             searchResultsIntent.putExtra(COURSE, courseName);
             searchResultsIntent.putExtra(DINNER, dinner);
             searchResultsIntent.setData(currentDinnerUri);
-            searchProgressBar.setVisibility(View.GONE);
             startActivity(searchResultsIntent);
 
         }
