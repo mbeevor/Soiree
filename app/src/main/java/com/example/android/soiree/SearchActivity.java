@@ -21,6 +21,9 @@ import butterknife.ButterKnife;
 
 import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.DINNER;
+import static com.example.android.soiree.model.Keys.MAIN;
+import static com.example.android.soiree.model.Keys.PUDDING;
+import static com.example.android.soiree.model.Keys.STARTER;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -46,7 +49,15 @@ public class SearchActivity extends AppCompatActivity {
         currentDinnerUri = getIntent.getData();
 
         if (courseName != null) {
-            setTitle(courseName);
+            if (courseName.equals(STARTER)) {
+                setTitle(dinner.getStarterName());
+            } else if (courseName.equals(MAIN)) {
+                setTitle(dinner.getMainName());
+            } else if (courseName.equals(PUDDING)) {
+                setTitle(dinner.getPuddingName());
+            } else {
+                setTitle(R.string.app_name);
+            }
         }
 
         // assign toolbar to activity, and enable back button in action bar

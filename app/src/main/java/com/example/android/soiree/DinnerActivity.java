@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.soiree.model.Dinner;
@@ -33,13 +34,22 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 import static com.example.android.soiree.model.Keys.DINNER;
+import static com.example.android.soiree.model.Keys.MAIN;
+import static com.example.android.soiree.model.Keys.PUDDING;
+import static com.example.android.soiree.model.Keys.STARTER;
 
 
 public class DinnerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -48,12 +58,18 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     private Dinner dinner;
     private String dinnerName;
-    private String courseName;
     private String starterId;
+    private String starterName;
+    private String starterUri;
     private String mainId;
+    private String mainName;
+    private String mainUri;
     private String puddingId;
+    private String puddingName;
+    private String puddingUri;
     private String guestList;
     private String recipeNotes;
+    private String courseName;
     @BindView(R.id.save_button)
     Button saveButton;
     @BindView(R.id.starter_card)
@@ -76,6 +92,10 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     ImageView guestImage;
     @BindView(R.id.name_edit_text)
     EditText nameEditText;
+    @BindView(R.id.starter_label)
+    TextView starterLabel;
+    @BindView(R.id.main_label) TextView mainLabel;
+    @BindView(R.id.pudding_label) TextView puddingLabel;
     private Uri currentDinnerUri;
 
 
@@ -120,7 +140,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
         // create layout for new dinner
         if (currentDinnerUri == null) {
             setTitle(R.string.new_dinner_party);
-            invalidateOptionsMenu();
 
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,20 +169,33 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     private void createNewDinner() {
 
         starterId = DEFAULT_VALUE;
+        starterName = getString(R.string.starter);
+        starterUri = DEFAULT_VALUE;
         mainId = DEFAULT_VALUE;
+        mainName = getString(R.string.main);
+        mainUri = DEFAULT_VALUE;
         puddingId = DEFAULT_VALUE;
+        puddingName = getString(R.string.pudding);
+        puddingUri = DEFAULT_VALUE;
         guestList = DEFAULT_VALUE;
         recipeNotes = DEFAULT_VALUE;
 
         // create new dinner, using default values as no recipes have been selected yet
-        dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
+        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
+                mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
 
         // build new dinner for database
         ContentValues contentValues = new ContentValues();
         contentValues.put(DINNER_NAME, dinner.getDinnerName());
         contentValues.put(STARTER_ID, dinner.getStarterId());
+        contentValues.put(STARTER_NAME, dinner.getStarterName());
+        contentValues.put(STARTER_URI, dinner.getStarterUri());
         contentValues.put(MAIN_ID, dinner.getMainId());
+        contentValues.put(MAIN_NAME, dinner.getMainName());
+        contentValues.put(MAIN_URI, dinner.getMainUri());
         contentValues.put(PUDDING_ID, dinner.getPuddingId());
+        contentValues.put(PUDDING_NAME, dinner.getPuddingName());
+        contentValues.put(PUDDING_URI, dinner.getPuddingUri());
         contentValues.put(GUEST_LIST, dinner.getGuestList());
         contentValues.put(RECIPE_NOTES, dinner.getRecipeNotes());
 
@@ -225,8 +257,14 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 _ID,
                 DINNER_NAME,
                 STARTER_ID,
+                STARTER_NAME,
+                STARTER_URI,
                 MAIN_ID,
+                MAIN_NAME,
+                MAIN_URI,
                 PUDDING_ID,
+                PUDDING_NAME,
+                PUDDING_URI,
                 GUEST_LIST,
                 RECIPE_NOTES,
         };
@@ -242,35 +280,45 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
             dinnerName = cursor.getString(cursor.getColumnIndex(DINNER_NAME));
             starterId = cursor.getString(cursor.getColumnIndex(STARTER_ID));
+            starterName = cursor.getString(cursor.getColumnIndex(STARTER_NAME));
+            starterUri = cursor.getString(cursor.getColumnIndex(STARTER_URI));
             mainId = cursor.getString(cursor.getColumnIndex(MAIN_ID));
+            mainName = cursor.getString(cursor.getColumnIndex(MAIN_NAME));
+            mainUri = cursor.getString(cursor.getColumnIndex(MAIN_URI));
             puddingId = cursor.getString(cursor.getColumnIndex(PUDDING_ID));
+            puddingName = cursor.getString(cursor.getColumnIndex(PUDDING_NAME));
+            puddingUri = cursor.getString(cursor.getColumnIndex(PUDDING_URI));
             guestList =  cursor.getString(cursor.getColumnIndex(GUEST_LIST));
             recipeNotes = cursor.getString(cursor.getColumnIndex(RECIPE_NOTES));
 
             // Load saved dinner
-            dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
+            dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
+                    mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
             setTitle(dinnerName);
 
+            starterLabel.setText(starterName);
             starterCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.starter);
+                    courseName = STARTER;
                     showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });
 
+            mainLabel.setText(mainName);
             mainCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.main);
+                    courseName = MAIN;
                     showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });
 
+            puddingLabel.setText(puddingName);
             puddingCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    courseName = getString(R.string.pudding);
+                    courseName = PUDDING;
                     showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
                 }
             });

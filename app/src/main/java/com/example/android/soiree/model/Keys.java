@@ -31,6 +31,9 @@ public class Keys {
 
     // default values when creating new dinner
     public static final String DINNER = "dinner";
+    public static final String STARTER = "starter";
+    public static final String MAIN = "main";
+    public static final String PUDDING = "pudding";
     public static final String DEFAULT_VALUE = "default_value";
     public static final String DEFAULT_GUEST_LIST = "default_guest_list";
 

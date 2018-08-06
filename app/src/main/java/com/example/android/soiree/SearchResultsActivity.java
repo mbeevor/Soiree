@@ -37,10 +37,27 @@ import static com.example.android.soiree.model.Keys.COURSE_STARTER;
 import static com.example.android.soiree.model.Keys.COURSE_UNKNOWN;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 import static com.example.android.soiree.model.Keys.DINNER;
+import static com.example.android.soiree.model.Keys.MAIN;
+import static com.example.android.soiree.model.Keys.PUDDING;
+import static com.example.android.soiree.model.Keys.STARTER;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
     final Context context = this;
+    private Dinner dinner;
+    private String dinnerName;
+    private String starterId;
+    private String starterName;
+    private String starterUri;
+    private String mainId;
+    private String mainName;
+    private String mainUri;
+    private String puddingId;
+    private String puddingName;
+    private String puddingUri;
+    private String guestList;
+    private String recipeNotes;
+    private String courseName;
     private String searchQuery;
     private ArrayList<Recipe> recipesList;
     private Recipe recipe;
@@ -49,14 +66,6 @@ public class SearchResultsActivity extends AppCompatActivity {
     private ResultsListAdapter resultsListAdapter;
     private int currentCourse;
     private Uri currentDinnerUri;
-    private Dinner dinner;
-    private String dinnerName;
-    private String starterId;
-    private String mainId;
-    private String puddingId;
-    private String guestList;
-    private String recipeNotes;
-    private String courseName;
     private DBHandler dbHandler;
 
     @Override
@@ -75,11 +84,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
 
         if (courseName != null) {
-            if (courseName.equals(getString(R.string.starter))) {
+            if (courseName.equals(STARTER)) {
                 currentCourse = COURSE_STARTER;
-            } else if (courseName.equals(getString(R.string.main))) {
+            } else if (courseName.equals(MAIN)) {
                 currentCourse = COURSE_MAIN;
-            } else if (courseName.equals(getString(R.string.pudding))) {
+            } else if (courseName.equals(PUDDING)) {
                 currentCourse = COURSE_PUDDING;
             } else {
                 currentCourse = COURSE_UNKNOWN;
@@ -89,15 +98,24 @@ public class SearchResultsActivity extends AppCompatActivity {
         if (dinner != null) {
             dinnerName = dinner.getDinnerName();
             starterId = dinner.getStarterId();
+            starterName = dinner.getStarterName();
+            starterUri = dinner.getStarterUri();
             mainId = dinner.getMainId();
+            mainName = dinner.getMainName();
+            mainUri = dinner.getMainUri();
             puddingId = dinner.getPuddingId();
             guestList = dinner.getGuestList();
             recipeNotes = dinner.getRecipeNotes();
         } else {
-            dinnerName = DEFAULT_VALUE;
             starterId = DEFAULT_VALUE;
+            starterName = STARTER;
+            starterUri = DEFAULT_VALUE;
             mainId = DEFAULT_VALUE;
+            mainName = MAIN;
+            mainUri = DEFAULT_VALUE;
             puddingId = DEFAULT_VALUE;
+            puddingName = PUDDING;
+            puddingUri = DEFAULT_VALUE;
             guestList = DEFAULT_VALUE;
             recipeNotes = DEFAULT_VALUE;
         }
@@ -130,14 +148,20 @@ public class SearchResultsActivity extends AppCompatActivity {
                         switch (currentCourse) {
                             case COURSE_STARTER:
                                 starterId = recipe.getRecipeId();
+                                starterName = recipe.getRecipeTitle();
+                                starterUri = recipe.getMethodUrl();
                                 break;
 
                             case COURSE_MAIN:
                                 mainId = recipe.getRecipeId();
+                                mainName = recipe.getRecipeTitle();
+                                mainUri = recipe.getMethodUrl();
                                 break;
 
                             case COURSE_PUDDING:
                                 puddingId = recipe.getRecipeId();
+                                puddingName = recipe.getRecipeTitle();
+                                puddingUri = recipe.getMethodUrl();
                                 break;
 
                             default:
@@ -145,7 +169,8 @@ public class SearchResultsActivity extends AppCompatActivity {
                         }
 
                         // return to course details after adding recipe
-                        dinner = new Dinner(dinnerName, starterId, mainId, puddingId, guestList, recipeNotes);
+                        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
+                                mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
                         backToCourseIntent.putExtra(COURSE, courseName);
                         backToCourseIntent.putExtra(DINNER, dinner);
                         backToCourseIntent.setData(currentDinnerUri);

@@ -27,9 +27,15 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -113,8 +119,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 _ID,
                 DINNER_NAME,
                 STARTER_ID,
+                STARTER_NAME,
+                STARTER_URI,
                 MAIN_ID,
+                MAIN_NAME,
+                MAIN_URI,
                 PUDDING_ID,
+                PUDDING_NAME,
+                PUDDING_URI,
                 GUEST_LIST,
                 RECIPE_NOTES,
         };
@@ -158,4 +170,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<Cursor> loader) {
         dinnerCursorAdapter.swapCursor(null);
     }
+
+
 }

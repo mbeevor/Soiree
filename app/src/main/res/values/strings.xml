@@ -20,9 +20,6 @@
     <string name="empty_ingredients_view">Add a recipe to see the recipeDetail.</string>
     <string name="empty_notes_view">Store your recipe notes here.</string>
     <string name="save_button_text">Save</string>
-    <string name="starter_card_label">Starter</string>
-    <string name="main_card_label">Main</string>
-    <string name="pudding_card_label">Pudding</string>
     <string name="guest_card_label">Dinner guests</string>
 
     <!-- alert strings -->

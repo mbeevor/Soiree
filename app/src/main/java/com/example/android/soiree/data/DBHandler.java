@@ -7,9 +7,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.TABLE_DINNER;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 
@@ -25,8 +31,14 @@ public class DBHandler extends SQLiteOpenHelper {
                     + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + DINNER_NAME + " TEXT NOT NULL, "
                     + STARTER_ID + " TEXT, "
+                    + STARTER_NAME + " TEXT, "
+                    + STARTER_URI + " TEXT, "
                     + MAIN_ID + " TEXT, "
+                    + MAIN_NAME + " TEXT, "
+                    + MAIN_URI + " TEXT, "
                     + PUDDING_ID + " TEXT, "
+                    + PUDDING_NAME + " TEXT, "
+                    + PUDDING_URI + " TEXT, "
                     + GUEST_LIST + " TEXT, "
                     + RECIPE_NOTES + " TEXT);";
 
