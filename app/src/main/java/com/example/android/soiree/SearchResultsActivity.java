@@ -50,14 +50,22 @@ public class SearchResultsActivity extends AppCompatActivity {
     private String starterId;
     private String starterName;
     private String starterUri;
+    private String starterImage;
+    private String starterNotes;
+
     private String mainId;
     private String mainName;
     private String mainUri;
+    private String mainImage;
+    private String mainNotes;
+
     private String puddingId;
     private String puddingName;
     private String puddingUri;
+    private String puddingImage;
+    private String puddingNotes;
+
     private String guestList;
-    private String recipeNotes;
     private String courseName;
     private String searchQuery;
     private ArrayList<Recipe> recipesList;
@@ -103,24 +111,42 @@ public class SearchResultsActivity extends AppCompatActivity {
             starterId = dinner.getStarterId();
             starterName = dinner.getStarterName();
             starterUri = dinner.getStarterUri();
+            starterImage = dinner.getStarterImage();
+            starterNotes = dinner.getStarterNotes();
+
             mainId = dinner.getMainId();
             mainName = dinner.getMainName();
             mainUri = dinner.getMainUri();
+            mainImage = dinner.getStarterImage();
+            mainNotes = dinner.getMainNotes();
+
             puddingId = dinner.getPuddingId();
+            puddingName = dinner.getPuddingName();
+            puddingUri = dinner.getPuddingUri();
+            puddingImage = dinner.getPuddingImage();
+            puddingNotes = dinner.getPuddingNotes();
+
             guestList = dinner.getGuestList();
-            recipeNotes = dinner.getRecipeNotes();
         } else {
             starterId = DEFAULT_VALUE;
             starterName = STARTER;
             starterUri = DEFAULT_VALUE;
+            starterImage = DEFAULT_VALUE;
+            starterNotes = DEFAULT_VALUE;
+
             mainId = DEFAULT_VALUE;
             mainName = MAIN;
             mainUri = DEFAULT_VALUE;
+            mainImage = DEFAULT_VALUE;
+            mainNotes = DEFAULT_VALUE;
+
             puddingId = DEFAULT_VALUE;
             puddingName = PUDDING;
             puddingUri = DEFAULT_VALUE;
+            puddingImage = DEFAULT_VALUE;
+            puddingNotes = DEFAULT_VALUE;
+
             guestList = DEFAULT_VALUE;
-            recipeNotes = DEFAULT_VALUE;
         }
 
         // create GridLayoutManager for results
@@ -153,18 +179,21 @@ public class SearchResultsActivity extends AppCompatActivity {
                                 starterId = recipe.getRecipeId();
                                 starterName = recipe.getRecipeTitle();
                                 starterUri = recipe.getMethodUrl();
+                                starterImage = recipe.getRecipeImage();
                                 break;
 
                             case COURSE_MAIN:
                                 mainId = recipe.getRecipeId();
                                 mainName = recipe.getRecipeTitle();
                                 mainUri = recipe.getMethodUrl();
+                                mainImage = recipe.getRecipeImage();
                                 break;
 
                             case COURSE_PUDDING:
                                 puddingId = recipe.getRecipeId();
                                 puddingName = recipe.getRecipeTitle();
                                 puddingUri = recipe.getMethodUrl();
+                                puddingImage = recipe.getRecipeImage();
                                 break;
 
                             default:
@@ -172,8 +201,8 @@ public class SearchResultsActivity extends AppCompatActivity {
                         }
 
                         // return to course details after adding recipe
-                        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
-                                mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
+                        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, starterImage, starterNotes, mainId, mainName,
+                                mainUri, mainImage, mainNotes, puddingId, puddingName, puddingUri, puddingImage, puddingNotes, guestList);
                         backToCourseIntent.putExtra(COURSE, courseName);
                         backToCourseIntent.putExtra(DINNER, dinner);
                         backToCourseIntent.setData(currentDinnerUri);

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +35,11 @@ public class IngredientsFragment extends Fragment {
     public IngredientsListAdapter currentRecipeListAdapter;
     private ArrayList<Ingredient> ingredientsList;
     private Dinner dinner;
-    private String dinnerName;
     private String starterId;
     private String mainId;
     private String puddingId;
-    private String guestList;
-    private String recipeNotes;
     private String courseName;
     private int currentCourse;
-
     public IngredientsFragment() {
 
     }
@@ -72,19 +69,15 @@ public class IngredientsFragment extends Fragment {
             }
 
             if (dinner != null) {
-                dinnerName = dinner.getDinnerName();
                 starterId = dinner.getStarterId();
                 mainId = dinner.getMainId();
                 puddingId = dinner.getPuddingId();
-                guestList = dinner.getGuestList();
-                recipeNotes = dinner.getRecipeNotes();
+
             } else {
-                dinnerName = DEFAULT_VALUE;
                 starterId = DEFAULT_VALUE;
                 mainId = DEFAULT_VALUE;
                 puddingId = DEFAULT_VALUE;
-                guestList = DEFAULT_VALUE;
-                recipeNotes = DEFAULT_VALUE;
+
             }
         }
 
@@ -101,15 +94,15 @@ public class IngredientsFragment extends Fragment {
 
         switch (currentCourse) {
             case COURSE_STARTER:
-                recipeId = dinner.getStarterId();
+                recipeId = starterId;
                 break;
 
             case COURSE_MAIN:
-                recipeId = dinner.getMainId();
+                recipeId = mainId;
                 break;
 
             case COURSE_PUDDING:
-                recipeId = dinner.getPuddingId();
+                recipeId = puddingId;
                 break;
 
             default:
@@ -140,6 +133,7 @@ public class IngredientsFragment extends Fragment {
             ingredientsList = list;
 
             if (ingredientsList != null) {
+                Log.v("ingredientsList = ", ingredientsList.toString());
                 ingredientsRecyclerView.setAdapter(currentRecipeListAdapter);
                 currentRecipeListAdapter.updateData(ingredientsList);
 

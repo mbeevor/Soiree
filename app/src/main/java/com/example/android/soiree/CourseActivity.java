@@ -8,7 +8,6 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,14 +37,19 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_IMAGE;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_IMAGE;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_URI;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_IMAGE;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.COURSE;
@@ -58,22 +62,32 @@ import static com.example.android.soiree.model.Keys.DINNER;
 import static com.example.android.soiree.model.Keys.MAIN;
 import static com.example.android.soiree.model.Keys.PUDDING;
 import static com.example.android.soiree.model.Keys.STARTER;
+import static com.example.android.soiree.model.Keys.URI;
 
 public class CourseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXISTING_DINNER_LOADER = 5;
+    private static final int EXISTING_DINNER_LOADER = 2;
 
     private Dinner dinner;
     private String dinnerName;
     private String starterId;
     private String starterName;
     private String starterUri;
+    private String starterImage;
+    private String starterNotes;
+
     private String mainId;
     private String mainName;
     private String mainUri;
+    private String mainImage;
+    private String mainNotes;
+
     private String puddingId;
     private String puddingName;
     private String puddingUri;
+    private String puddingImage;
+    private String puddingNotes;
+
     private String guestList;
     private String recipeNotes;
     private String courseName;
@@ -123,24 +137,42 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
             starterId = dinner.getStarterId();
             starterName = dinner.getStarterName();
             starterUri = dinner.getStarterUri();
+            starterImage = dinner.getStarterImage();
+            starterNotes = dinner.getStarterNotes();
+
             mainId = dinner.getMainId();
             mainName = dinner.getMainName();
             mainUri = dinner.getMainUri();
+            mainImage = dinner.getStarterImage();
+            mainNotes = dinner.getMainNotes();
+
             puddingId = dinner.getPuddingId();
+            puddingName = dinner.getPuddingName();
+            puddingUri = dinner.getPuddingUri();
+            puddingImage = dinner.getPuddingImage();
+            puddingNotes = dinner.getPuddingNotes();
+
             guestList = dinner.getGuestList();
-            recipeNotes = dinner.getRecipeNotes();
         } else {
             starterId = DEFAULT_VALUE;
             starterName = STARTER;
             starterUri = DEFAULT_VALUE;
+            starterImage = DEFAULT_VALUE;
+            starterNotes = DEFAULT_VALUE;
+
             mainId = DEFAULT_VALUE;
             mainName = MAIN;
             mainUri = DEFAULT_VALUE;
+            mainImage = DEFAULT_VALUE;
+            mainNotes = DEFAULT_VALUE;
+
             puddingId = DEFAULT_VALUE;
             puddingName = PUDDING;
             puddingUri = DEFAULT_VALUE;
+            puddingImage = DEFAULT_VALUE;
+            puddingNotes = DEFAULT_VALUE;
+
             guestList = DEFAULT_VALUE;
-            recipeNotes = DEFAULT_VALUE;
         }
 
         /* check the course name to determining if updating a starter, main or pudding.
@@ -241,6 +273,7 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         Bundle recipeBundleForFragment = new Bundle();
         recipeBundleForFragment.putParcelable(DINNER, dinner);
         recipeBundleForFragment.putString(COURSE, courseName);
+        recipeBundleForFragment.putParcelable(URI, currentDinnerUri);
         return recipeBundleForFragment;
 
     }
@@ -254,14 +287,19 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
                 STARTER_ID,
                 STARTER_NAME,
                 STARTER_URI,
+                STARTER_IMAGE,
+                STARTER_NOTES,
                 MAIN_ID,
                 MAIN_NAME,
                 MAIN_URI,
+                MAIN_IMAGE,
+                MAIN_NOTES,
                 PUDDING_ID,
                 PUDDING_NAME,
                 PUDDING_URI,
+                PUDDING_IMAGE,
+                PUDDING_NOTES,
                 GUEST_LIST,
-                RECIPE_NOTES,
         };
 
         return new CursorLoader(this, currentDinnerUri, projection, null, null, null);
@@ -275,19 +313,26 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
             starterId = cursor.getString(cursor.getColumnIndex(STARTER_ID));
             starterName = cursor.getString(cursor.getColumnIndex(STARTER_NAME));
             starterUri = cursor.getString(cursor.getColumnIndex(STARTER_URI));
+            starterImage = cursor.getString(cursor.getColumnIndex(STARTER_IMAGE));
+            starterNotes = cursor.getString(cursor.getColumnIndex(STARTER_NOTES));
             mainId = cursor.getString(cursor.getColumnIndex(MAIN_ID));
             mainName = cursor.getString(cursor.getColumnIndex(MAIN_NAME));
             mainUri = cursor.getString(cursor.getColumnIndex(MAIN_URI));
+            mainImage = cursor.getString(cursor.getColumnIndex(MAIN_IMAGE));
+            mainNotes = cursor.getString(cursor.getColumnIndex(MAIN_NOTES));
             puddingId = cursor.getString(cursor.getColumnIndex(PUDDING_ID));
             puddingName = cursor.getString(cursor.getColumnIndex(PUDDING_NAME));
             puddingUri = cursor.getString(cursor.getColumnIndex(PUDDING_URI));
+            puddingImage = cursor.getString(cursor.getColumnIndex(PUDDING_IMAGE));
+            puddingNotes = cursor.getString(cursor.getColumnIndex(PUDDING_NOTES));
             guestList = cursor.getString(cursor.getColumnIndex(GUEST_LIST));
-            recipeNotes = cursor.getString(cursor.getColumnIndex(RECIPE_NOTES));
 
-            dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
-                    mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
+            // Load saved dinner
+            dinner = new Dinner(dinnerName, starterId, starterName, starterUri, starterImage, starterNotes,
+                    mainId, mainName, mainUri, mainImage, mainNotes, puddingId,
+                    puddingName, puddingUri, puddingImage, puddingNotes, guestList);
+
         }
-
     }
 
     @Override
@@ -341,20 +386,25 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         contentValues.put(STARTER_ID, dinner.getStarterId());
         contentValues.put(STARTER_NAME, dinner.getStarterName());
         contentValues.put(STARTER_URI, dinner.getStarterUri());
+        contentValues.put(STARTER_IMAGE, dinner.getStarterImage());
+        contentValues.put(STARTER_NOTES, dinner.getStarterNotes());
         contentValues.put(MAIN_ID, dinner.getMainId());
         contentValues.put(MAIN_NAME, dinner.getMainName());
         contentValues.put(MAIN_URI, dinner.getMainUri());
+        contentValues.put(MAIN_IMAGE, dinner.getMainImage());
+        contentValues.put(MAIN_NOTES, dinner.getMainNotes());
         contentValues.put(PUDDING_ID, dinner.getPuddingId());
         contentValues.put(PUDDING_NAME, dinner.getPuddingName());
         contentValues.put(PUDDING_URI, dinner.getPuddingUri());
+        contentValues.put(PUDDING_IMAGE, dinner.getPuddingImage());
+        contentValues.put(PUDDING_NOTES, dinner.getPuddingNotes());
         contentValues.put(GUEST_LIST, dinner.getGuestList());
-        contentValues.put(RECIPE_NOTES, dinner.getRecipeNotes());
 
         if (currentDinnerUri != null) {
             // update dinner in database
             int rowsAffected = getContentResolver().update(currentDinnerUri, contentValues, null, null);
             if (rowsAffected == 0) {
-                Toast.makeText(this, "Dinner update failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.dinner_update_failed, Toast.LENGTH_SHORT).show();
             }
         } else {
             currentDinnerUri = getContentResolver().insert(CONTENT_URI, contentValues);

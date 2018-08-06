@@ -56,9 +56,9 @@ public class QueryUtils {
         return recipesList;
     }
 
-    public static ArrayList<Ingredient> getRecipeDetailFromJson(String recipesJson) {
+    public static ArrayList<Ingredient> getRecipeDetailFromJson(String resultJson) {
 
-        if (TextUtils.isEmpty(recipesJson)) {
+        if (TextUtils.isEmpty(resultJson)) {
             return null;
         }
 
@@ -66,13 +66,11 @@ public class QueryUtils {
 
         try {
 
-            JSONObject resultsObject = new JSONObject(recipesJson);
+            JSONObject resultsObject = new JSONObject(resultJson);
 
             JSONObject recipeObject = resultsObject.getJSONObject(Keys.RECIPE);
 
-
             JSONArray ingredientsArray = recipeObject.getJSONArray(Keys.RECIPE_INGREDIENTS);
-
 
             for (int i = 0; i < ingredientsArray.length(); i++) {
 

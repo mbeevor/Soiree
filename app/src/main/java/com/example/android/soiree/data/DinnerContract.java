@@ -36,14 +36,19 @@ public class DinnerContract {
         public static final String STARTER_ID = "starter_id";
         public static final String STARTER_NAME = "starter_name";
         public static final String STARTER_URI = "starter_uri";
+        public static final String STARTER_IMAGE = "starter_image";
+        public static final String STARTER_NOTES = "starter_notes";
         public static final String MAIN_ID = "main_id";
         public static final String MAIN_NAME = "main_name";
         public static final String MAIN_URI = "main_uri";
+        public static final String MAIN_IMAGE = "main_image";
+        public static final String MAIN_NOTES = "main_notes";
         public static final String PUDDING_ID = "pudding_id";
         public static final String PUDDING_NAME = "pudding_name";
         public static final String PUDDING_URI = "pudding_uri";
+        public static final String PUDDING_IMAGE = "pudding_image";
+        public static final String PUDDING_NOTES = "pudding_notes";
         public static final String GUEST_LIST = "guest_list";
-        public static final String RECIPE_NOTES = "recipe_notes";
 
     }
 }

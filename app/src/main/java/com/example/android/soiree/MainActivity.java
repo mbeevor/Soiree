@@ -33,17 +33,25 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.CONTENT
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_IMAGE;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.MAIN_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_IMAGE;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.PUDDING_URI;
-import static com.example.android.soiree.data.DinnerContract.DinnerEntry.RECIPE_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_ID;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_IMAGE;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NAME;
+import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NOTES;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
 import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
+import static com.example.android.soiree.model.Keys.MAIN;
+import static com.example.android.soiree.model.Keys.PUDDING;
+import static com.example.android.soiree.model.Keys.STARTER;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -54,14 +62,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private String starterId;
     private String starterName;
     private String starterUri;
+    private String starterImage;
+    private String starterNotes;
+
     private String mainId;
     private String mainName;
     private String mainUri;
+    private String mainImage;
+    private String mainNotes;
+
     private String puddingId;
     private String puddingName;
     private String puddingUri;
+    private String puddingImage;
+    private String puddingNotes;
+
     private String guestList;
-    private String recipeNotes;
     @BindView(R.id.new_fab)
     FloatingActionButton floatingActionButton;
     @BindView(R.id.dinner_party_list_recyclerview)
@@ -124,20 +140,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void createNewDinner() {
 
         starterId = DEFAULT_VALUE;
-        starterName = getString(R.string.starter);
+        starterName = STARTER;
         starterUri = DEFAULT_VALUE;
+        starterImage = DEFAULT_VALUE;
+        starterNotes = DEFAULT_VALUE;
+
         mainId = DEFAULT_VALUE;
-        mainName = getString(R.string.main);
+        mainName = MAIN;
         mainUri = DEFAULT_VALUE;
+        mainImage = DEFAULT_VALUE;
+        mainNotes = DEFAULT_VALUE;
+
         puddingId = DEFAULT_VALUE;
-        puddingName = getString(R.string.pudding);
+        puddingName = PUDDING;
         puddingUri = DEFAULT_VALUE;
+        puddingImage = DEFAULT_VALUE;
+        puddingNotes = DEFAULT_VALUE;
+
         guestList = DEFAULT_VALUE;
-        recipeNotes = DEFAULT_VALUE;
 
         // create new dinner, using default values as no recipes have been selected yet
-        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
-                mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
+        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, starterImage, starterNotes,
+                mainId, mainName, mainUri, mainImage, mainNotes, puddingId,
+                puddingName, puddingUri, puddingImage, puddingNotes, guestList);
 
         // build new dinner for database
         ContentValues contentValues = new ContentValues();
@@ -145,14 +170,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         contentValues.put(STARTER_ID, dinner.getStarterId());
         contentValues.put(STARTER_NAME, dinner.getStarterName());
         contentValues.put(STARTER_URI, dinner.getStarterUri());
+        contentValues.put(STARTER_IMAGE, dinner.getStarterImage());
+        contentValues.put(STARTER_NOTES, dinner.getStarterNotes());
         contentValues.put(MAIN_ID, dinner.getMainId());
         contentValues.put(MAIN_NAME, dinner.getMainName());
         contentValues.put(MAIN_URI, dinner.getMainUri());
+        contentValues.put(MAIN_IMAGE, dinner.getMainImage());
+        contentValues.put(MAIN_NOTES, dinner.getMainNotes());
         contentValues.put(PUDDING_ID, dinner.getPuddingId());
         contentValues.put(PUDDING_NAME, dinner.getPuddingName());
         contentValues.put(PUDDING_URI, dinner.getPuddingUri());
+        contentValues.put(PUDDING_IMAGE, dinner.getPuddingImage());
+        contentValues.put(PUDDING_NOTES, dinner.getPuddingNotes());
         contentValues.put(GUEST_LIST, dinner.getGuestList());
-        contentValues.put(RECIPE_NOTES, dinner.getRecipeNotes());
 
         // add dinner to database
         getContentResolver().insert(CONTENT_URI, contentValues);
@@ -208,14 +238,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 STARTER_ID,
                 STARTER_NAME,
                 STARTER_URI,
+                STARTER_IMAGE,
+                STARTER_NOTES,
                 MAIN_ID,
                 MAIN_NAME,
                 MAIN_URI,
+                MAIN_IMAGE,
+                MAIN_NOTES,
                 PUDDING_ID,
                 PUDDING_NAME,
                 PUDDING_URI,
+                PUDDING_IMAGE,
+                PUDDING_NOTES,
                 GUEST_LIST,
-                RECIPE_NOTES,
         };
 
         return new CursorLoader(this, CONTENT_URI, projection, null, null, null);

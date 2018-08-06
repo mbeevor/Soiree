@@ -1,12 +1,7 @@
 package com.example.android.soiree.model;
 
-import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.example.android.soiree.R;
-
-import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 
 public class Dinner implements Parcelable {
 
@@ -14,29 +9,45 @@ public class Dinner implements Parcelable {
     private String starterId;
     private String starterName;
     private String starterUri;
+    private String starterImage;
+    private String starterNotes;
+
     private String mainId;
     private String mainName;
     private String mainUri;
+    private String mainImage;
+    private String mainNotes;
+
     private String puddingId;
     private String puddingName;
     private String puddingUri;
-    private String guestList;
-    private String recipeNotes;
+    private String puddingImage;
+    private String puddingNotes;
 
-    public Dinner(String name, String starter, String sName, String sUri, String main, String mName, String mUri,
-                  String pudding, String pName, String pUri, String guests, String notes) {
+    private String guestList;
+
+    public Dinner(String name,
+                  String starter, String sName, String sUri, String sImage, String sNotes,
+                  String main, String mName, String mUri, String mImage, String mNotes,
+                  String pudding, String pName, String pUri, String pImage, String pNotes,
+                  String guests) {
         dinnerName = name;
         starterId = starter;
         starterName = sName;
         starterUri = sUri;
+        starterImage = sImage;
+        starterNotes = sNotes;
         mainId = main;
         mainName = mName;
         mainUri = mUri;
+        mainImage = mImage;
+        mainNotes = mNotes;
         puddingId = pudding;
         puddingName = pName;
         puddingUri = pUri;
+        puddingImage = pImage;
+        puddingNotes = pNotes;
         guestList = guests;
-        recipeNotes = notes;
     }
 
 
@@ -45,14 +56,19 @@ public class Dinner implements Parcelable {
         starterId = parcel.readString();
         starterName = parcel.readString();
         starterUri = parcel.readString();
+        starterImage = parcel.readString();
+        starterNotes = parcel.readString();
         mainId = parcel.readString();
         mainName = parcel.readString();
         mainUri = parcel.readString();
+        mainImage = parcel.readString();
+        mainNotes = parcel.readString();
         puddingId = parcel.readString();
         puddingName = parcel.readString();
         puddingUri = parcel.readString();
+        puddingImage = parcel.readString();
+        puddingNotes = parcel.readString();
         guestList = parcel.readString();
-        recipeNotes = parcel.readString();
     }
 
     public String getDinnerName() { return dinnerName; }
@@ -61,19 +77,37 @@ public class Dinner implements Parcelable {
     }
     public String getStarterName() {return starterName;}
     public String getStarterUri() { return starterUri;}
+    public String getStarterImage() { return starterImage;}
+    public String getStarterNotes() { return starterNotes;}
     public String getMainId() {
         return mainId;
     }
     public String getMainName() {return mainName;}
     public String getMainUri() { return mainUri;}
+    public String getMainImage() { return mainImage;}
+    public String getMainNotes() { return mainNotes;}
     public String getPuddingId() {
         return puddingId;
     }
     public String getPuddingName() { return puddingName;}
     public String getPuddingUri() { return puddingUri; }
+    public String getPuddingImage() { return puddingImage;}
+    public String getPuddingNotes() { return puddingNotes;}
     public String getGuestList() { return guestList; }
-    public String getRecipeNotes() {
-        return recipeNotes;
+
+    public String setStarterNotes(String notes) {
+        starterNotes = notes;
+        return starterNotes;
+    }
+
+    public String setMainNotes(String notes) {
+        mainNotes = notes;
+        return mainNotes;
+    }
+
+    public String setPuddingNotes(String notes) {
+        puddingNotes = notes;
+        return puddingNotes;
     }
 
     @Override
@@ -87,14 +121,19 @@ public class Dinner implements Parcelable {
         dest.writeString(starterId);
         dest.writeString(starterName);
         dest.writeString(starterUri);
+        dest.writeString(starterImage);
+        dest.writeString(starterNotes);
         dest.writeString(mainId);
         dest.writeString(mainName);
         dest.writeString(mainUri);
+        dest.writeString(mainImage);
+        dest.writeString(mainNotes);
         dest.writeString(puddingId);
         dest.writeString(puddingName);
         dest.writeString(puddingUri);
+        dest.writeString(puddingImage);
+        dest.writeString(puddingNotes);
         dest.writeString(guestList);
-        dest.writeString(recipeNotes);
     }
 
     public static final Parcelable.Creator<Dinner> CREATOR = new Parcelable.Creator<Dinner>() {

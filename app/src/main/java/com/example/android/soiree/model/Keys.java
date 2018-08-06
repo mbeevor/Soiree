@@ -27,15 +27,14 @@ public class Keys {
     public static final String RECIPE_NAME = "title";
     public static final String RECIPE_RANK = "social_rank";
     public static final String RECIPE_INGREDIENTS = "ingredients";
-    public static final String SOURCE_URL = "source_url";
 
     // default values when creating new dinner
+    public static final String URI = "uri";
     public static final String DINNER = "dinner";
     public static final String STARTER = "starter";
     public static final String MAIN = "main";
     public static final String PUDDING = "pudding";
     public static final String DEFAULT_VALUE = "default_value";
-    public static final String DEFAULT_GUEST_LIST = "default_guest_list";
 
     // static integers for course selected
     public static final int COURSE_UNKNOWN = 0;

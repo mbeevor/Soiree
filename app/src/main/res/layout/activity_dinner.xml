@@ -31,6 +31,7 @@
 
             <ImageView
                 android:id="@+id/starter_image"
+                android:contentDescription="@string/starter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -86,6 +87,7 @@
 
             <ImageView
                 android:id="@+id/main_image"
+                android:contentDescription="@string/main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -140,6 +142,7 @@
 
             <ImageView
                 android:id="@+id/pudding_image"
+                android:contentDescription="@string/pudding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -193,6 +196,7 @@
 
             <ImageView
                 android:id="@+id/guest_image"
+                android:contentDescription="@string/guest_card_label"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
