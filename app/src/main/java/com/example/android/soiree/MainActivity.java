@@ -66,11 +66,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), DinnerActivity.class);
-                startActivity(intent);
+                showInputDialog();
             }
         });
     }
+    
+    public void showInputDialog() {
+        
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+		alertDialogBuilder.setMessage(R.string.name_of_dinner)
+		// setup a dialog window
+		alertDialogBuilder.setPositiveButton(R.string.save_button_text, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						createNewDinner();
+					}
+				})
+				.setNegativeButton(R.string.cancel, neww DialogInterface.OnClickListener() {
+                    // cancel adding new dinner
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create and show the alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+        
 
     public void loadSavedDinners() {
         getLoaderManager().initLoader(DINNER_LOADER, null, this);
