@@ -90,6 +90,7 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
     private Uri currentDinnerUri;
     private Intent searchActivity;
     private int currentCourse;
+    private String recipeId;
     private String recipeUri;
     Context context = this;
 
@@ -142,20 +143,33 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
             recipeNotes = DEFAULT_VALUE;
         }
 
-        // set title to selected course
+        /* check the course name to determining if updating a starter, main or pudding.
+        Update recipeId accordingly to determine behaviour, including app title.
+         */
         if (courseName != null) {
             if (courseName.equals(STARTER)) {
                 setTitle(dinner.getStarterName());
                 currentCourse = COURSE_STARTER;
+                recipeId = dinner.getStarterId();
+                recipeUri = dinner.getStarterUri();
+
             } else if (courseName.equals(MAIN)) {
                 setTitle(dinner.getMainName());
                 currentCourse = COURSE_MAIN;
+                recipeId = dinner.getMainId();
+                recipeUri = dinner.getMainUri();
+
             } else if (courseName.equals(PUDDING)) {
                 setTitle(dinner.getPuddingName());
                 currentCourse = COURSE_PUDDING;
+                recipeId = dinner.getPuddingId();
+                recipeUri = dinner.getPuddingUri();
+
             } else {
                 setTitle(R.string.app_name);
                 currentCourse = COURSE_UNKNOWN;
+                recipeId = null;
+                recipeUri = null;
             }
         }
 
@@ -171,51 +185,31 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
                  * and we can run a search to find a recipe. Otherwise, you will be warned that data will be lost before
                  * you start a new search.
                  */
-                if ((starterId != null && starterId.equals(DEFAULT_VALUE)) ||
-                        (mainId != null && mainId.equals(DEFAULT_VALUE)) ||
-                        (puddingId != null && puddingId.equals(DEFAULT_VALUE))) {
+                if (recipeId == null) {
+                    searchRecipes();
+                } else if (recipeId.equals(DEFAULT_VALUE)) {
                     searchRecipes();
                 } else {
+                    // recipe already saved
                     warnReplaceRecipe();
                 }
             }
         });
 
-        if (starterUri != null && mainUri != null && puddingUri != null)
+        if (recipeUri == null || recipeUri.equals(DEFAULT_VALUE)) {
             // hide recipe button if no recipe has been saved
-            if (starterUri.equals(DEFAULT_VALUE) || mainUri.equals(DEFAULT_VALUE) || puddingUri.equals(DEFAULT_VALUE)) {
-                recipeButton.setVisibility(View.GONE);
-            } else {
-
-
-                switch (currentCourse) {
-                    case COURSE_STARTER:
-                        recipeUri = dinner.getStarterUri();
-                        break;
-
-                    case COURSE_MAIN:
-                        recipeUri = dinner.getStarterUri();
-                        break;
-
-                    case COURSE_PUDDING:
-                        recipeUri = dinner.getStarterUri();
-                        break;
-
-                    default:
-                        recipeUri = null;
-
-                        recipeButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent();
-                                intent.setAction(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse(recipeUri));
-                                startActivity(intent);
-                            }
-                        });
+            recipeButton.setVisibility(View.GONE);
+        } else {
+            recipeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(recipeUri));
+                    startActivity(intent);
                 }
-            }
-
+            });
+        }
 
     }
 
@@ -359,9 +353,7 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
         if (currentDinnerUri != null) {
             // update dinner in database
             int rowsAffected = getContentResolver().update(currentDinnerUri, contentValues, null, null);
-            if (rowsAffected != 0) {
-                Toast.makeText(this, "Dinner updated successfully", Toast.LENGTH_SHORT).show();
-            } else {
+            if (rowsAffected == 0) {
                 Toast.makeText(this, "Dinner update failed", Toast.LENGTH_SHORT).show();
             }
         } else {

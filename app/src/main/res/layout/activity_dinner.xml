@@ -10,32 +10,6 @@
         android:id="@+id/included_toolbar"
         layout="@layout/toolbar"/>
 
-    <EditText
-        android:id="@+id/name_edit_text"
-        style="@style/main_heading"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/wide_margin"
-        android:hint="@string/name_of_dinner"
-        app:layout_constraintTop_toBottomOf="@id/included_toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/save_button"
-        app:layout_constraintBottom_toTopOf="@id/starter_card"/>
-
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/wide_margin"
-        android:background="@color/colorAccent"
-        android:gravity="center"
-        android:text="@string/save_button_text"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="@id/included_toolbar"
-        app:layout_constraintStart_toEndOf="@+id/name_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/starter_card"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/starter_card"
@@ -48,7 +22,7 @@
         android:clickable="true"
         android:elevation="@dimen/card_elevation"
         android:focusable="true"
-        app:layout_constraintTop_toBottomOf="@id/name_edit_text"
+        app:layout_constraintTop_toBottomOf="@id/included_toolbar"
         app:layout_constraintBottom_toTopOf="@id/main_card">
 
         <android.support.constraint.ConstraintLayout

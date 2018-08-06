@@ -2,7 +2,9 @@ package com.example.android.soiree;
 
 import android.app.LoaderManager;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
@@ -10,15 +12,19 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.soiree.Adapters.DinnerCursorAdapter;
 import com.example.android.soiree.Adapters.OnItemClickHandler;
+import com.example.android.soiree.model.Dinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,11 +43,25 @@ import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_NAME;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry.STARTER_URI;
 import static com.example.android.soiree.data.DinnerContract.DinnerEntry._ID;
+import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DINNER_LOADER = 0;
 
+    private Dinner dinner;
+    private String dinnerName;
+    private String starterId;
+    private String starterName;
+    private String starterUri;
+    private String mainId;
+    private String mainName;
+    private String mainUri;
+    private String puddingId;
+    private String puddingName;
+    private String puddingUri;
+    private String guestList;
+    private String recipeNotes;
     @BindView(R.id.new_fab)
     FloatingActionButton floatingActionButton;
     @BindView(R.id.dinner_party_list_recyclerview)
@@ -50,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     TextView emptyTextView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    private Uri currentDinnerUri;
     private DinnerCursorAdapter dinnerCursorAdapter;
 
 
@@ -65,33 +86,78 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showInputDialog();
             }
         });
     }
     
     public void showInputDialog() {
-        
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-		alertDialogBuilder.setMessage(R.string.name_of_dinner)
-		// setup a dialog window
-		alertDialogBuilder.setPositiveButton(R.string.save_button_text, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						createNewDinner();
-					}
-				})
-				.setNegativeButton(R.string.cancel, neww DialogInterface.OnClickListener() {
-                    // cancel adding new dinner
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
 
-		// create and show the alert dialog
-		AlertDialog alert = alertDialogBuilder.create();
-		alert.show();
-        
+        // use custom layout for prompt dialog
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText nameEditText = promptView.findViewById(R.id.edit_text);
+
+        // setup a dialog window
+        alertDialogBuilder.setPositiveButton(R.string.save_button_text, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dinnerName = nameEditText.getText().toString().trim();
+                createNewDinner();
+            }
+        })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            // cancel adding new dinner
+            public void onClick (DialogInterface dialog,int id){
+                dialog.cancel();
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    private void createNewDinner() {
+
+        starterId = DEFAULT_VALUE;
+        starterName = getString(R.string.starter);
+        starterUri = DEFAULT_VALUE;
+        mainId = DEFAULT_VALUE;
+        mainName = getString(R.string.main);
+        mainUri = DEFAULT_VALUE;
+        puddingId = DEFAULT_VALUE;
+        puddingName = getString(R.string.pudding);
+        puddingUri = DEFAULT_VALUE;
+        guestList = DEFAULT_VALUE;
+        recipeNotes = DEFAULT_VALUE;
+
+        // create new dinner, using default values as no recipes have been selected yet
+        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
+                mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
+
+        // build new dinner for database
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DINNER_NAME, dinner.getDinnerName());
+        contentValues.put(STARTER_ID, dinner.getStarterId());
+        contentValues.put(STARTER_NAME, dinner.getStarterName());
+        contentValues.put(STARTER_URI, dinner.getStarterUri());
+        contentValues.put(MAIN_ID, dinner.getMainId());
+        contentValues.put(MAIN_NAME, dinner.getMainName());
+        contentValues.put(MAIN_URI, dinner.getMainUri());
+        contentValues.put(PUDDING_ID, dinner.getPuddingId());
+        contentValues.put(PUDDING_NAME, dinner.getPuddingName());
+        contentValues.put(PUDDING_URI, dinner.getPuddingUri());
+        contentValues.put(GUEST_LIST, dinner.getGuestList());
+        contentValues.put(RECIPE_NOTES, dinner.getRecipeNotes());
+
+        // add dinner to database
+        getContentResolver().insert(CONTENT_URI, contentValues);
+
+    }
 
     public void loadSavedDinners() {
         getLoaderManager().initLoader(DINNER_LOADER, null, this);
@@ -166,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 cursor.moveToPosition(position);
                 Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
-                Uri currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position + 1);
+                currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position + 1);
                 dinnerIntent.setData(currentDinnerUri);
                 startActivity(dinnerIntent);
             }

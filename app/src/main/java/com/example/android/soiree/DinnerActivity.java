@@ -70,8 +70,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     private String guestList;
     private String recipeNotes;
     private String courseName;
-    @BindView(R.id.save_button)
-    Button saveButton;
     @BindView(R.id.starter_card)
     CardView starterCard;
     @BindView(R.id.main_card)
@@ -90,8 +88,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     ImageView puddingImage;
     @BindView(R.id.guest_image)
     ImageView guestImage;
-    @BindView(R.id.name_edit_text)
-    EditText nameEditText;
     @BindView(R.id.starter_label)
     TextView starterLabel;
     @BindView(R.id.main_label) TextView mainLabel;
@@ -140,68 +136,10 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
         // create layout for new dinner
         if (currentDinnerUri == null) {
             setTitle(R.string.new_dinner_party);
-
-            saveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    // validate a name has been entered
-                    dinnerName = nameEditText.getText().toString().trim();
-                    if (TextUtils.isEmpty(dinnerName)) {
-                        nameEditText.setError(getString(R.string.edit_text_empty_warning));
-                    } else {
-                        createNewDinner();
-                        nameEditText.setVisibility(View.GONE);
-                        saveButton.setVisibility(View.GONE);
-                        setTitle(dinnerName);
-                    }
-                }
-            });
-
             // create layout for existing dinner
         } else {
-            nameEditText.setVisibility(View.GONE);
-            saveButton.setVisibility(View.GONE);
             loadSavedDinner();
         }
-    }
-
-    private void createNewDinner() {
-
-        starterId = DEFAULT_VALUE;
-        starterName = getString(R.string.starter);
-        starterUri = DEFAULT_VALUE;
-        mainId = DEFAULT_VALUE;
-        mainName = getString(R.string.main);
-        mainUri = DEFAULT_VALUE;
-        puddingId = DEFAULT_VALUE;
-        puddingName = getString(R.string.pudding);
-        puddingUri = DEFAULT_VALUE;
-        guestList = DEFAULT_VALUE;
-        recipeNotes = DEFAULT_VALUE;
-
-        // create new dinner, using default values as no recipes have been selected yet
-        dinner = new Dinner(dinnerName, starterId, starterName, starterUri, mainId, mainName,
-                mainUri, puddingId, puddingName, puddingUri, guestList, recipeNotes);
-
-        // build new dinner for database
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DINNER_NAME, dinner.getDinnerName());
-        contentValues.put(STARTER_ID, dinner.getStarterId());
-        contentValues.put(STARTER_NAME, dinner.getStarterName());
-        contentValues.put(STARTER_URI, dinner.getStarterUri());
-        contentValues.put(MAIN_ID, dinner.getMainId());
-        contentValues.put(MAIN_NAME, dinner.getMainName());
-        contentValues.put(MAIN_URI, dinner.getMainUri());
-        contentValues.put(PUDDING_ID, dinner.getPuddingId());
-        contentValues.put(PUDDING_NAME, dinner.getPuddingName());
-        contentValues.put(PUDDING_URI, dinner.getPuddingUri());
-        contentValues.put(GUEST_LIST, dinner.getGuestList());
-        contentValues.put(RECIPE_NOTES, dinner.getRecipeNotes());
-
-        // add dinner to database
-        getContentResolver().insert(CONTENT_URI, contentValues);
-
     }
 
     private void loadSavedDinner() {
