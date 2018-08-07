@@ -1,6 +1,5 @@
 package com.example.android.soiree;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -99,20 +98,22 @@ public class NotesFragment extends Fragment {
             }
         }
 
-        Intent backToCourseIntent = new Intent(getContext(), CourseActivity.class);
         String notes = editText.getText().toString();
 
         switch (currentCourse) {
             case COURSE_STARTER:
                 starterNotes = dinner.setStarterNotes(notes);
+                starterNotes = dinner.getStarterNotes();
                 break;
 
             case COURSE_MAIN:
                 mainNotes = dinner.setMainNotes(notes);
+                mainName = dinner.getMainNotes();
                 break;
 
             case COURSE_PUDDING:
                 puddingNotes = dinner.setPuddingNotes(notes);
+                puddingNotes = dinner.getPuddingNotes();
                 break;
 
             default:
@@ -121,10 +122,7 @@ public class NotesFragment extends Fragment {
         // return to course details after adding recipe
         dinner = new Dinner(dinnerName, starterId, starterName, starterUri, starterImage, starterNotes, mainId, mainName,
                 mainUri, mainImage, mainNotes, puddingId, puddingName, puddingUri, puddingImage, puddingNotes, guestList);
-        backToCourseIntent.putExtra(COURSE, courseName);
-        backToCourseIntent.putExtra(DINNER, dinner);
-        backToCourseIntent.setData(currentDinnerUri);
-        startActivity(backToCourseIntent);
+
 
         return rootView;
     }

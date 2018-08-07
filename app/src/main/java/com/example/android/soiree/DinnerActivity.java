@@ -247,7 +247,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
             setTitle(dinnerName);
 
             // use saved images for each course, or use placeholders
-            if (starterImage.equals(DEFAULT_VALUE)) {
+            if (starterImage.equals(null) || starterImage.equals(DEFAULT_VALUE)) {
                 starterImageView.setImageResource(R.drawable.plate);
             } else {
                 Picasso.with(this)
@@ -255,7 +255,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                         .into(starterImageView);
             }
 
-            if (mainImage.equals(DEFAULT_VALUE)) {
+            if (mainImage.equals(null) || mainImage.equals(DEFAULT_VALUE)) {
                 mainImageView.setImageResource(R.drawable.pasta);
             } else {
                 Picasso.with(this)
@@ -263,7 +263,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                         .into(mainImageView);
             }
 
-            if (puddingImage.equals(DEFAULT_VALUE)) {
+            if (puddingImage.equals(null) || puddingImage.equals(DEFAULT_VALUE)) {
                 puddingImageView.setImageResource(R.drawable.raspberry);
             } else {
                 Picasso.with(this)

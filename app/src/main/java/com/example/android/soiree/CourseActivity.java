@@ -66,7 +66,7 @@ import static com.example.android.soiree.model.Keys.URI;
 
 public class CourseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXISTING_DINNER_LOADER = 2;
+    private static final int EXISTING_DINNER_LOADER = 5;
 
     private Dinner dinner;
     private String dinnerName;
@@ -143,7 +143,7 @@ public class CourseActivity extends AppCompatActivity implements LoaderManager.L
             mainId = dinner.getMainId();
             mainName = dinner.getMainName();
             mainUri = dinner.getMainUri();
-            mainImage = dinner.getStarterImage();
+            mainImage = dinner.getMainImage();
             mainNotes = dinner.getMainNotes();
 
             puddingId = dinner.getPuddingId();

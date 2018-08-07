@@ -62,7 +62,7 @@ public class QueryUtils {
             return null;
         }
 
-        ArrayList<Ingredient> recipeDetailList = new ArrayList<>();
+        ArrayList<Ingredient> recipeDetailList = null;
 
         try {
 
@@ -71,6 +71,8 @@ public class QueryUtils {
             JSONObject recipeObject = resultsObject.getJSONObject(Keys.RECIPE);
 
             JSONArray ingredientsArray = recipeObject.getJSONArray(Keys.RECIPE_INGREDIENTS);
+
+           recipeDetailList = new ArrayList<>(ingredientsArray.length());
 
             for (int i = 0; i < ingredientsArray.length(); i++) {
 
