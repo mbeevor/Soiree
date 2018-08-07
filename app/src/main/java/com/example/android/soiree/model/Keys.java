@@ -42,6 +42,10 @@ public class Keys {
     public static final int COURSE_MAIN = 2;
     public static final int COURSE_PUDDING = 3;
 
+    // widget
+    public static final String ACTION_UPDATE_WIDGET = "com.example.android.soiree.action.update.widget";
+
+
 
 
 }

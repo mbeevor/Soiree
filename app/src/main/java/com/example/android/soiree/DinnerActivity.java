@@ -288,6 +288,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 public void onClick(View v) {
                     courseName = MAIN;
                     showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
+
                 }
             });
 
@@ -297,6 +298,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 public void onClick(View v) {
                     courseName = PUDDING;
                     showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
+
                 }
             });
 

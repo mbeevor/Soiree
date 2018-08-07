@@ -32,4 +32,8 @@
     <dimen name="sub_heading_text_size">20sp</dimen>
     <dimen name="normal_text_size">16sp</dimen>
 
+    <!-- widget-->
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_min_size">110dp</dimen>
+
 </resources>

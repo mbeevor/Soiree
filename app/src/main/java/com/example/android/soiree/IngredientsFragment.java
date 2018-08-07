@@ -1,7 +1,9 @@
 package com.example.android.soiree;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.example.android.soiree.AsyncTasks.IngredientsAsyncTaskListener;
 import com.example.android.soiree.Utils.NetworkUtils;
 import com.example.android.soiree.model.Dinner;
 import com.example.android.soiree.model.Ingredient;
+import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import static com.example.android.soiree.model.Keys.DEFAULT_VALUE;
 import static com.example.android.soiree.model.Keys.DINNER;
 import static com.example.android.soiree.model.Keys.MAIN;
 import static com.example.android.soiree.model.Keys.PUDDING;
+import static com.example.android.soiree.model.Keys.RECIPE_INGREDIENTS;
 import static com.example.android.soiree.model.Keys.STARTER;
 
 public class IngredientsFragment extends Fragment {
@@ -50,6 +54,7 @@ public class IngredientsFragment extends Fragment {
     RecyclerView ingredientsRecyclerView;
     @BindView(R.id.empty_ingredients_view)
     TextView emptyRecyclerView;
+    SharedPreferences sharedPreferences;
 
     public IngredientsFragment() {
 
@@ -66,6 +71,9 @@ public class IngredientsFragment extends Fragment {
 
         final View rootview = inflater.inflate(R.layout.fragment_ingredients, container, false);
         ButterKnife.bind(this, rootview);
+
+        // set up shared preferences to save ingredients list for widget
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         CourseActivity activity = (CourseActivity) getActivity();
         Bundle getData = activity.dataForFragment();
@@ -158,6 +166,7 @@ public class IngredientsFragment extends Fragment {
                 currentRecipeListAdapter.updateData(ingredientsList);
                 if (currentRecipeListAdapter.getItemCount() != 0) {
                     showIngredientsList();
+                    saveArrayList(RECIPE_INGREDIENTS, ingredientsList);
                 } else {
                     showEmptyView();
                 }
@@ -175,6 +184,16 @@ public class IngredientsFragment extends Fragment {
         ingredientsRecyclerView.setVisibility(View.VISIBLE);
         emptyRecyclerView.setVisibility(View.GONE);
     }
+
+    public void saveArrayList(String key, ArrayList<Ingredient> ingredients) {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(ingredients);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
 }
 
 
