@@ -110,6 +110,11 @@ public class Dinner implements Parcelable {
         return puddingNotes;
     }
 
+    public String setGuestList(String guests) {
+        guestList = guests;
+        return guestList;
+    }
+
     @Override
     public int describeContents() {
         return 0;

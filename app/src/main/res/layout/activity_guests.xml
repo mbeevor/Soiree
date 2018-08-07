@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/included_toolbar"
+        layout="@layout/toolbar"/>
+
     <EditText
         android:id="@+id/guests_edit_text"
         android:layout_width="match_parent"
@@ -12,8 +16,9 @@
         android:layout_margin="@dimen/wide_margin"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:paddingTop="@dimen/wide_padding"
         android:gravity="top|start"
-        android:hint="@string/empty_notes_view"
+        android:hint="@string/empty_guests_view"
         android:inputType="textCapSentences|textMultiLine"
         android:textColorHighlight="@color/colorAccent"
         android:lines="15"
