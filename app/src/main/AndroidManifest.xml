@@ -46,6 +46,11 @@
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GuestActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".DinnerActivity">
+        </activity>
 
         <provider
             android:name=".data.DinnerProvider"

@@ -32,7 +32,6 @@ public class GetIngredientsData extends AsyncTask<URL, Void, ArrayList<Ingredien
 
                     ingredientsList = QueryUtils.getRecipeDetailFromJson(query);
                     return ingredientsList;
-
                 }
             }
         } catch (IOException e) {

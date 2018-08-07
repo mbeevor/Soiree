@@ -304,7 +304,10 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 @Override
                 public void onClick(View v) {
                     courseName = getString(R.string.guest_card_label);
-                    showSelectedCourseIntent(dinner, courseName, currentDinnerUri);
+                    Intent showGuestsIntent = new Intent(getApplicationContext(), GuestActivity.class);
+                    showGuestsIntent.putExtra(DINNER, dinner);
+                    showGuestsIntent.setData(currentDinnerUri);
+                    startActivity(showGuestsIntent);
                 }
             });
         }

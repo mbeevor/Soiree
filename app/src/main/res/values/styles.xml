@@ -17,6 +17,13 @@
         <item name="android:textSize">@dimen/heading_text_size</item>
     </style>
 
+    <!-- style for ingredients text -->
+    <style name="ingredients_item">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+    </style>
+
     <!-- style for dinner party label -->
     <style name="dinner_party_label">
         <item name="android:fontFamily">serif</item>

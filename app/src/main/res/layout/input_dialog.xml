@@ -30,6 +30,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:hint="@string/name_of_dinner"
+        android:inputType="textCapWords"
         android:padding="@dimen/narrow_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

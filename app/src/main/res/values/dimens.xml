@@ -25,6 +25,8 @@
     <dimen name="fab_press_translation_z">16dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 
+    <dimen name="card_corner_radius">8dp</dimen>
+
     <!-- text -->
     <dimen name="heading_text_size">24sp</dimen>
     <dimen name="sub_heading_text_size">20sp</dimen>
