@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.example.android.soiree.Adapters.DinnerCursorAdapter;
 import com.example.android.soiree.Adapters.OnItemClickHandler;
 import com.example.android.soiree.model.Dinner;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
