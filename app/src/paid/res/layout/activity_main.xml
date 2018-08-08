@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.android.soiree.MainActivity">
+    tools:context="com.example.android.soiree.com.example.com.soiree.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleMarginEnd="@dimen/expanded_title_margin_end"
             app:expandedTitleMarginStart="@dimen/expanded_title_margin_start"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -34,9 +34,9 @@
 
                 <ImageView
                     android:id="@+id/main_app_image"
-                    android:contentDescription="@string/app_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/food"
@@ -97,12 +97,12 @@
                 android:id="@+id/empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/empty_view"
                 android:gravity="center"
+                android:text="@string/empty_view"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/main_heading" />
+                app:layout_constraintTop_toBottomOf="@id/main_heading"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -140,6 +140,7 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:clickable="true"
+        android:contentDescription="@string/create_new_dinner"
         android:elevation="@dimen/fab_elevation"
         android:src="@drawable/fab_plus"
         app:layout_anchor="@id/appbar"

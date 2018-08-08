@@ -25,6 +25,10 @@ import android.widget.TextView;
 import com.example.android.soiree.Adapters.DinnerCursorAdapter;
 import com.example.android.soiree.Adapters.OnItemClickHandler;
 import com.example.android.soiree.model.Dinner;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +60,9 @@ import static com.example.android.soiree.model.Keys.STARTER;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int DINNER_LOADER = 0;
+
+    private FirebaseAnalytics firebaseAnalytics;
+    @BindView(R.id.adView) AdView adView;
 
     private Dinner dinner;
     private String dinnerName;
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private Uri currentDinnerUri;
     private DinnerCursorAdapter dinnerCursorAdapter;
 
+    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +104,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        // initialise MobileAds;
+        MobileAds.initialize(this, ADMOB_APP_ID);
+
+        // Create an ad request.
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        adView.loadAd(adRequest);
+
+        // hide list of dinners until loader completed
         showError();
         loadSavedDinners();
 
@@ -106,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
     }
-    
+
     public void showInputDialog() {
 
         // use custom layout for prompt dialog
@@ -126,11 +147,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            // cancel adding new dinner
-            public void onClick (DialogInterface dialog,int id){
-                dialog.cancel();
-            }
-        });
+                    // cancel adding new dinner
+                    public void onClick (DialogInterface dialog,int id){
+                        dialog.cancel();
+                    }
+                });
 
         // create and show the alert dialog
         AlertDialog alert = alertDialogBuilder.create();
@@ -138,6 +159,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void createNewDinner() {
+
+        // use Firebase Analytics to measure the number of new dinners created
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+//        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         starterId = DEFAULT_VALUE;
         starterName = STARTER;

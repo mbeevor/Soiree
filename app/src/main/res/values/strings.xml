@@ -6,13 +6,15 @@
     <string name="ingredients_header">Ingredients</string>
     <string name="notes_header">Notes</string>
     <string name="recipe_button">View recipe</string>
-    <string name="search_hint">Search by currentRecipe</string>
+    <string name="search_hint">Search recipes</string>
+    <string name="search_fab_text">Search for a recipe</string>
     <string name="starter">Starter</string>
     <string name="main">Main Course</string>
     <string name="pudding">Pudding</string>
     <string name="action_delete_dinner">Delete</string>
+    <string name="create_new_dinner">Create new dinner party</string>
     <string name="new_dinner_party">New dinner party</string>
-    <string name="existing_dinner_party">Your dinner party</string>
+    <string name="existing_dinner">Your dinner party</string>
 
     <!-- placeholder text -->
     <string name="enter_dinner_name">Enter dinner party name:</string>

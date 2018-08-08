@@ -3,7 +3,6 @@ package com.example.android.soiree.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -113,8 +112,6 @@ public class MyWidgetRemoteViewsFactory extends RemoteViewsService {
             Type type = new TypeToken<ArrayList<Ingredient>>() {
             }.getType();
             return gson.fromJson(json, type);
-
-
         }
 
     }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "28282030870",
+    "firebase_url": "https://soiree-69afe.firebaseio.com",
+    "project_id": "soiree-69afe",
+    "storage_bucket": "soiree-69afe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28282030870:android:4b5c95ea44a78d2b",
+        "android_client_info": {
+          "package_name": "com.example.android.soiree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28282030870-fp3te1bnkidek7o2evofa3b8a7f4mj0i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.soiree",
+            "certificate_hash": "632dbab5f124fdb2ab55b8a71869ab09439b88ed"
+          }
+        },
+        {
+          "client_id": "28282030870-nh9lr8iq97m983kp2kk219s3euo4jt1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPSvpnsLqKZHc-YPjIRP6HESUtBDdS-Gg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28282030870-nh9lr8iq97m983kp2kk219s3euo4jt1u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

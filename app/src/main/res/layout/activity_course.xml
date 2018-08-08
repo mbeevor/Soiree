@@ -23,8 +23,8 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/narrow_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/appbar"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_button"/>
+        app:layout_constraintBottom_toTopOf="@+id/recipe_button"
+        app:layout_constraintTop_toBottomOf="@id/appbar"/>
 
     <Button
         android:id="@+id/recipe_button"
@@ -34,11 +34,11 @@
         android:layout_marginEnd="@dimen/wide_margin"
         android:layout_marginStart="@dimen/wide_margin"
         android:background="@color/colorAccent"
+        android:contentDescription="@string/recipe_button"
+        android:elevation="@dimen/fab_elevation"
         android:gravity="center"
         android:text="@string/recipe_button"
-        android:contentDescription="@string/recipe_button"
         android:textColor="@android:color/white"
-        android:elevation="@dimen/fab_elevation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -52,6 +52,7 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:clickable="true"
+        android:contentDescription="@string/search_fab_text"
         android:elevation="@dimen/fab_elevation"
         android:src="@drawable/fab_search"
         app:layout_constraintBottom_toBottomOf="parent"

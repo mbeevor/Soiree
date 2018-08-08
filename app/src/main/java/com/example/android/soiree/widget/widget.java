@@ -8,12 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.example.android.soiree.CourseActivity;
 import com.example.android.soiree.MainActivity;
 import com.example.android.soiree.R;
 
 import static com.example.android.soiree.model.Keys.ACTION_UPDATE_WIDGET;
-import static com.example.android.soiree.model.Keys.RECIPE_ID;
 
 
 public class widget extends AppWidgetProvider {
@@ -27,7 +25,7 @@ public class widget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.widget_heading, newPendingIntent);
 
         Intent intent = new Intent(context, MyWidgetRemoteViewsFactory.class);
-        views.setRemoteAdapter(R.id.widget_listview, intent);
+        views.setRemoteAdapter(R.id.widget_list_view, intent);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
@@ -54,7 +52,7 @@ public class widget extends AppWidgetProvider {
             ComponentName widget = new ComponentName(context.getApplicationContext(), widget.class.getName());
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(widget);
             onUpdate(context, appWidgetManager, appWidgetIds);
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listview);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list_view);
 
         }
     }

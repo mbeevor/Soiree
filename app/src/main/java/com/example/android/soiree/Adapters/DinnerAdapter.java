@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 
 public class DinnerAdapter extends RecyclerView.Adapter<DinnerAdapter.DinnerAdapterViewHolder>{
 
-    /** adapter for RecyclerView in MainActivity showing list of saved dinner parties
+    /** adapter for RecyclerView in com.example.android.soiree.MainActivity showing list of saved dinner parties
      */
 
     private Context context;
@@ -54,7 +54,7 @@ public class DinnerAdapter extends RecyclerView.Adapter<DinnerAdapter.DinnerAdap
 
     public class DinnerAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        /** corresponding ViewHolder to power DinnerAdapter RecyclerView in MainActivity showing list of saved dinner parties
+        /** corresponding ViewHolder to power DinnerAdapter RecyclerView in com.example.android.soiree.MainActivity showing list of saved dinner parties
          */
 
         @BindView(R.id.dinner_party_label) public TextView dinnerPartyLabel;
