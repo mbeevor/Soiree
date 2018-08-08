@@ -133,13 +133,11 @@ public class SearchResultsActivity extends AppCompatActivity {
             starterUri = DEFAULT_VALUE;
             starterImage = DEFAULT_VALUE;
             starterNotes = DEFAULT_VALUE;
-
             mainId = DEFAULT_VALUE;
             mainName = MAIN;
             mainUri = DEFAULT_VALUE;
             mainImage = DEFAULT_VALUE;
             mainNotes = DEFAULT_VALUE;
-
             puddingId = DEFAULT_VALUE;
             puddingName = PUDDING;
             puddingUri = DEFAULT_VALUE;
