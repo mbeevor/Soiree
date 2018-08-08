@@ -46,7 +46,9 @@ public class MyWidgetRemoteViewsFactory extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            loadIngredientsList();
+            if (ingredients != null) {
+                ingredients.clear();
+            }loadIngredientsList();
         }
 
         @Override
