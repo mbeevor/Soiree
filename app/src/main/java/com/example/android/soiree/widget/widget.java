@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.example.android.soiree.CourseActivity;
+import com.example.android.soiree.MainActivity;
 import com.example.android.soiree.R;
 
 import static com.example.android.soiree.model.Keys.ACTION_UPDATE_WIDGET;
@@ -21,11 +22,15 @@ public class widget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-        Intent courseActivityIntent = new Intent(context, CourseActivity.class);
-        PendingIntent newPendingIntent = PendingIntent.getActivity(context, 0, courseActivityIntent, 0);
+        Intent openAppIntent = new Intent(context, MainActivity.class);
+        PendingIntent newPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, 0);
         views.setOnClickPendingIntent(R.id.widget_heading, newPendingIntent);
 
+        Intent intent = new Intent(context, MyWidgetRemoteViewsFactory.class);
+        views.setRemoteAdapter(R.id.widget_listview, intent);
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
 
     }
 
@@ -46,10 +51,10 @@ public class widget extends AppWidgetProvider {
         if (action.equals(ACTION_UPDATE_WIDGET)) {
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
-            ComponentName widget = new ComponentName(context.getApplicationContext(), MyWidgetRemoteViewsFactory.class.getName());
+            ComponentName widget = new ComponentName(context.getApplicationContext(), widget.class.getName());
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(widget);
             onUpdate(context, appWidgetManager, appWidgetIds);
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_title_tv);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listview);
 
         }
     }

@@ -21,7 +21,6 @@ import static com.example.android.soiree.model.Keys.RECIPE_INGREDIENTS;
 public class MyWidgetRemoteViewsFactory extends RemoteViewsService {
 
     private Context context;
-    private Cursor cursor;
     private ArrayList<Ingredient> ingredientsList;
     private ArrayList<String> ingredients;
     SharedPreferences sharedPreferences;

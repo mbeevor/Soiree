@@ -1,6 +1,10 @@
 package com.example.android.soiree;
 
+import android.appwidget.AppWidgetHost;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +24,8 @@ import com.example.android.soiree.AsyncTasks.IngredientsAsyncTaskListener;
 import com.example.android.soiree.Utils.NetworkUtils;
 import com.example.android.soiree.model.Dinner;
 import com.example.android.soiree.model.Ingredient;
+import com.example.android.soiree.widget.MyWidgetRemoteViewsFactory;
+import com.example.android.soiree.widget.widget;
 import com.google.gson.Gson;
 
 import java.net.URL;
@@ -28,6 +34,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.soiree.model.Keys.ACTION_UPDATE_WIDGET;
 import static com.example.android.soiree.model.Keys.COURSE;
 import static com.example.android.soiree.model.Keys.COURSE_MAIN;
 import static com.example.android.soiree.model.Keys.COURSE_PUDDING;
@@ -192,6 +199,15 @@ public class IngredientsFragment extends Fragment {
         String json = gson.toJson(ingredients);
         editor.putString(key, json);
         editor.apply();
+
+        // send intent to also update widget
+        Intent widgetIntent = new Intent(getContext(), widget.class);
+        widgetIntent.setAction(ACTION_UPDATE_WIDGET);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+        int [] ids = appWidgetManager.getAppWidgetIds(new ComponentName(getActivity(), widget.class));
+        widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        getContext().sendBroadcast(widgetIntent);
+
     }
 
 }
