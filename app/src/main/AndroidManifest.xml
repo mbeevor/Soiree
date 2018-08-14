@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.android.soiree">
+          package="uk.co.beevorwhite.soiree">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -56,7 +56,7 @@
 
         <provider
             android:name=".data.DinnerProvider"
-            android:authorities="com.example.android.soiree"
+            android:authorities="uk.co.beevorwhite.soiree"
             android:exported="false"/>
 
         <receiver android:name=".widget.widget">

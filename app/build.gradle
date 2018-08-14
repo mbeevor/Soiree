@@ -1,10 +1,17 @@
 apply plugin: 'com.android.application'
-
 android {
+    signingConfigs {
 
+        soireeConfig {
+            storeFile file("keystore.soiree.jks")
+            storePassword "molly123"
+            keyAlias "beevorwhite"
+            keyPassword "molly123"
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.example.android.soiree"
+        applicationId "uk.co.beevorwhite.soiree"
         minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
@@ -16,25 +23,26 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.soireeConfig
         }
+
+
     }
-
     flavorDimensions "version"
-
     productFlavors {
         free {
             dimension "version"
-            versionNameSuffix "-free"
+            versionNameSuffix ".free"
         }
         paid {
             dimension "version"
-            versionNameSuffix "-paid"
+            versionNameSuffix ".paid"
         }
 
     }
-
     dependencies {
 
         apply plugin: 'com.google.gms.google-services'
@@ -55,7 +63,7 @@ android {
         androidTestImplementation 'com.android.support.test:runner:1.0.2'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     }
-
 }
 
-
+dependencies {
+}

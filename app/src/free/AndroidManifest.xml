@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.android.soiree">
+          package="uk.co.beevorwhite.soiree">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/soiree"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="uk.co.beevorwhite.soiree.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,16 +22,16 @@
         <activity
             android:name=".DinnerActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="uk.co.beevorwhite.soiree.MainActivity">
         </activity>
         <activity
-            android:name=".CourseActivity"
+            android:name="uk.co.beevorwhite.soiree.CourseActivity"
             android:parentActivityName=".DinnerActivity">
         </activity>
         <activity
             android:name=".SearchActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".CourseActivity">
+            android:parentActivityName="uk.co.beevorwhite.soiree.CourseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
@@ -55,11 +55,11 @@
         </activity>
 
         <provider
-            android:name=".data.DinnerProvider"
-            android:authorities="com.example.android.soiree"
+            android:name="uk.co.beevorwhite.soiree.data.DinnerProvider"
+            android:authorities="uk.co.beevorwhite.soiree"
             android:exported="false"/>
 
-        <receiver android:name=".widget.widget">
+        <receiver android:name="uk.co.beevorwhite.soiree.widget.widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
@@ -70,7 +70,7 @@
                 android:resource="@xml/widget_info"/>
         </receiver>
 
-        <service android:name=".widget.MyWidgetRemoteViewsFactory"
+        <service android:name="uk.co.beevorwhite.soiree.widget.MyWidgetRemoteViewsFactory"
                   android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>

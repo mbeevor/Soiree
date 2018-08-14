@@ -20,11 +20,12 @@
     <string name="enter_dinner_name">Enter dinner party name:</string>
     <string name="name_of_dinner">Dinner party name</string>
     <string name="empty_view">Make some dinner plans!</string>
-    <string name="empty_ingredients_view">Add a recipe to see the recipeDetail.</string>
+    <string name="empty_ingredients_view">Add a recipe to see the ingredients.</string>
     <string name="empty_notes_view">Store your recipe notes here.</string>
-    <string name="empty_guests_view">Add your guests names here.</string>
+    <string name="empty_guests_view">Add your guest names here.</string>
     <string name="save_button_text">Save</string>
     <string name="guest_card_label">Dinner guests</string>
+    <string name="widget_empty">The widget will display the ingredients of your most recently viewed recipe.</string>
 
     <!-- alert strings -->
     <string name="add_recipe_to_dinner_party">Add selected recipe to dinner party?</string>
@@ -40,9 +41,12 @@
     <string name="dinner_update_failed">Dinner update failed</string>
     <string name="unable_to_delete">Unable to delete dinner from database</string>
     <string name="delete_warning_message">Are you sure you want to delete this dinner party? This can\'t be undone.</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
+
+    <!-- content descriptions -->
+    <string name="select_this_recipe">Select this recipe</string>
+    <string name="select_this_dinner">View this dinner</string>
+    <string name="progress_loading">Loading results.</string>
+
 
 </resources>
 

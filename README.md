@@ -11,4 +11,3 @@ To run this app you must create and add your own API key to the app.
   <li>Enter your API key in the gradle.properties file.</li>
   </ol>
 
-The app is signed with a keystore. The username and password are saved in the keystore.md file.

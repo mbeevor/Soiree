@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:28282030870:android:4b5c95ea44a78d2b",
         "android_client_info": {
-          "package_name": "com.example.android.soiree"
+          "package_name": "uk.co.beevorwhite.soiree"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "28282030870-fp3te1bnkidek7o2evofa3b8a7f4mj0i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.android.soiree",
+            "package_name": "uk.co.beevorwhite.soiree",
             "certificate_hash": "632dbab5f124fdb2ab55b8a71869ab09439b88ed"
           }
         },

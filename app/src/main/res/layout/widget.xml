@@ -16,6 +16,14 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"/>
 
+    <TextView
+        android:id="@+id/widget_empty_text"
+        style="@style/widget_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="@string/widget_empty"/>
+
     <ListView
         android:id="@+id/widget_list_view"
         android:layout_width="match_parent"
