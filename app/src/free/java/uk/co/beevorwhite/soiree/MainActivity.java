@@ -23,14 +23,10 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import uk.co.beevorwhite.soiree.Adapters.DinnerCursorAdapter;
-import uk.co.beevorwhite.soiree.Adapters.OnItemClickHandler;
-import uk.co.beevorwhite.soiree.model.Dinner;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -38,6 +34,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.beevorwhite.soiree.Adapters.DinnerCursorAdapter;
+import uk.co.beevorwhite.soiree.Adapters.OnItemClickHandler;
+import uk.co.beevorwhite.soiree.model.Dinner;
 
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;

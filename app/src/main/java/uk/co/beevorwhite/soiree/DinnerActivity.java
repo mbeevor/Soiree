@@ -1,6 +1,7 @@
 package uk.co.beevorwhite.soiree;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.beevorwhite.soiree.model.Dinner;
 
+import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.MAIN_ID;
@@ -147,7 +149,8 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
         // get data from main activity
         Intent intent = getIntent();
-        currentDinnerUri = intent.getData();
+        String uriLong = intent.getData().getLastPathSegment();
+        currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, (Long.parseLong(uriLong)) + 1);
 
         // create layout for new dinner
         if (currentDinnerUri != null) {
@@ -193,6 +196,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
             String selection = dinnerName + starterId + mainId + puddingId;
             String[] selectionArgs = {dinner.getDinnerName() + dinner.getStarterId() + dinner.getMainId() + dinner.getPuddingId()};
             int rowsDeleted = getContentResolver().delete(currentDinnerUri, selection, selectionArgs);
+            getLoaderManager().restartLoader(EXISTING_DINNER_LOADER, null, this);
             if (rowsDeleted == 0) {
                 Toast.makeText(this, R.string.unable_to_delete, Toast.LENGTH_SHORT).show();
             } else {
@@ -234,6 +238,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
         if (cursor.moveToFirst()) {
+
             dinnerName = cursor.getString(cursor.getColumnIndex(DINNER_NAME));
             starterId = cursor.getString(cursor.getColumnIndex(STARTER_ID));
             starterName = cursor.getString(cursor.getColumnIndex(STARTER_NAME));
@@ -330,7 +335,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+                loader.reset();
     }
 
     // method to launch intent when selecting a course from a saved dinner

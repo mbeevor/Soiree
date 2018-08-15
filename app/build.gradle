@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 android {
     signingConfigs {
-
-        soireeConfig {
-            storeFile file("keystore.soiree.jks")
-            storePassword "molly123"
-            keyAlias "beevorwhite"
-            keyPassword "molly123"
+        config {
+            keyAlias 'beevorwhite'
+            keyPassword 'android'
+            storeFile file('C:/Users/Matthew/AndroidStudioProjects/Soiree/app/keystore/soiree.jks')
+            storePassword 'android'
         }
     }
     compileSdkVersion 27
@@ -17,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
         // ensure you have your own API key to run this app
         buildConfigField("String", "API_KEY", API_KEY)
     }
@@ -26,10 +25,8 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
-            signingConfig signingConfigs.soireeConfig
+            signingConfig signingConfigs.config
         }
-
-
     }
     flavorDimensions "version"
     productFlavors {

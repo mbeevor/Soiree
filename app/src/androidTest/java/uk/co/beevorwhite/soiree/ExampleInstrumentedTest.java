@@ -1,4 +1,4 @@
-package com.example.android.soiree;
+package uk.co.beevorwhite.soiree;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
