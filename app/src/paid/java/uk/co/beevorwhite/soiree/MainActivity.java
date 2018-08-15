@@ -1,5 +1,6 @@
 package uk.co.beevorwhite.soiree;
 
+import android.app.ActivityOptions;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -10,12 +11,16 @@ import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -24,12 +29,11 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.beevorwhite.soiree.Adapters.DinnerCursorAdapter;
 import uk.co.beevorwhite.soiree.Adapters.OnItemClickHandler;
 import uk.co.beevorwhite.soiree.model.Dinner;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.CONTENT_URI;
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
@@ -100,6 +104,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        //set up transition
+        Transition exitTrans = new Explode();
+        getWindow().setExitTransition(exitTrans);
+        Transition reenterTrans = new Slide();
+        getWindow().setReenterTransition(reenterTrans);
+
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         firebaseAnalytics.setAnalyticsCollectionEnabled(true);
@@ -115,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
     }
-    
+
     public void showInputDialog() {
 
         // use custom layout for prompt dialog
@@ -135,11 +145,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            // cancel adding new dinner
-            public void onClick (DialogInterface dialog,int id){
-                dialog.cancel();
-            }
-        });
+                    // cancel adding new dinner
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
 
         // create and show the alert dialog
         AlertDialog alert = alertDialogBuilder.create();
@@ -276,9 +286,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 cursor.moveToPosition(position);
                 Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
-                    currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position);
-                         dinnerIntent.setData(currentDinnerUri);
-                startActivity(dinnerIntent);
+                currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position + 1);
+                dinnerIntent.setData(currentDinnerUri);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
+                    startActivity(dinnerIntent, bundle);
+                } else {
+                    startActivity(dinnerIntent);
+                }
             }
         });
 

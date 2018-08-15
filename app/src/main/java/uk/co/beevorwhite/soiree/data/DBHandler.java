@@ -27,7 +27,7 @@ import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry._ID;
 public class DBHandler extends SQLiteOpenHelper {
 
     //Database Version and name
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "dinnerParty.db";
 
     private static final String SQL_CREATE_DINNER_TABLE =

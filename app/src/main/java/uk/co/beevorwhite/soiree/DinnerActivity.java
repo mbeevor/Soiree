@@ -24,11 +24,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import uk.co.beevorwhite.soiree.model.Dinner;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.beevorwhite.soiree.model.Dinner;
 
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.DINNER_NAME;
 import static uk.co.beevorwhite.soiree.data.DinnerContract.DinnerEntry.GUEST_LIST;
@@ -190,7 +190,9 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
         if (dinner == null) {
             Toast.makeText(this, R.string.unable_to_delete, Toast.LENGTH_SHORT).show();
         } else if (currentDinnerUri != null) {
-            int rowsDeleted = getContentResolver().delete(currentDinnerUri, null, null);
+            String selection = dinnerName + starterId + mainId + puddingId;
+            String[] selectionArgs = {dinner.getDinnerName() + dinner.getStarterId() + dinner.getMainId() + dinner.getPuddingId()};
+            int rowsDeleted = getContentResolver().delete(currentDinnerUri, selection, selectionArgs);
             if (rowsDeleted == 0) {
                 Toast.makeText(this, R.string.unable_to_delete, Toast.LENGTH_SHORT).show();
             } else {
@@ -231,7 +233,7 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-        if (cursor.moveToPosition(1)) {
+        if (cursor.moveToFirst()) {
             dinnerName = cursor.getString(cursor.getColumnIndex(DINNER_NAME));
             starterId = cursor.getString(cursor.getColumnIndex(STARTER_ID));
             starterName = cursor.getString(cursor.getColumnIndex(STARTER_NAME));
@@ -323,8 +325,8 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
                 }
             });
         }
-
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -341,5 +343,6 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
         startActivity(showSelectedCourseIntent);
 
     }
+
 
 }

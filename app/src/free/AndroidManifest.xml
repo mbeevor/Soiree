@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/soiree"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="uk.co.beevorwhite.soiree.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,16 +22,16 @@
         <activity
             android:name=".DinnerActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="uk.co.beevorwhite.soiree.MainActivity">
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
-            android:name="uk.co.beevorwhite.soiree.CourseActivity"
+            android:name=".CourseActivity"
             android:parentActivityName=".DinnerActivity">
         </activity>
         <activity
             android:name=".SearchActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="uk.co.beevorwhite.soiree.CourseActivity">
+            android:parentActivityName=".CourseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
@@ -55,11 +55,11 @@
         </activity>
 
         <provider
-            android:name="uk.co.beevorwhite.soiree.data.DinnerProvider"
+            android:name=".data.DinnerProvider"
             android:authorities="uk.co.beevorwhite.soiree"
             android:exported="false"/>
 
-        <receiver android:name="uk.co.beevorwhite.soiree.widget.widget">
+        <receiver android:name=".widget.widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
@@ -70,7 +70,8 @@
                 android:resource="@xml/widget_info"/>
         </receiver>
 
-        <service android:name="uk.co.beevorwhite.soiree.widget.MyWidgetRemoteViewsFactory"
+        <service
+            android:name=".widget.MyWidgetRemoteViewsFactory"
                   android:permission="android.permission.BIND_REMOTEVIEWS">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>

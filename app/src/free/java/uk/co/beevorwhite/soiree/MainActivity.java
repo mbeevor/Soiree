@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //set up transition
         Transition exitTrans = new Explode();
         getWindow().setExitTransition(exitTrans);
-
         Transition reenterTrans = new Slide();
         getWindow().setReenterTransition(reenterTrans);
 
@@ -302,11 +301,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 cursor.moveToPosition(position);
                 Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
-                currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position);
+                currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position + 1);
                 dinnerIntent.setData(currentDinnerUri);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
                     Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle();
                     startActivity(dinnerIntent, bundle);
                 } else {
