@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'beevorwhite'
+            keyAlias 'soiree'
             keyPassword 'android'
-            storeFile file('keystore/soiree.jks')
+            storeFile file('keystore/keystore.jks')
             storePassword 'android'
         }
     }
@@ -24,7 +24,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.config
         }
     }
