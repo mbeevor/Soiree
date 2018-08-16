@@ -149,9 +149,8 @@ public class DinnerActivity extends AppCompatActivity implements LoaderManager.L
 
         // get data from main activity
         Intent intent = getIntent();
-        String uriLong = intent.getData().getLastPathSegment();
-        currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, (Long.parseLong(uriLong)) + 1);
-
+        currentDinnerUri = intent.getData();
+       
         // create layout for new dinner
         if (currentDinnerUri != null) {
             loadSavedDinner();
