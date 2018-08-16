@@ -63,15 +63,6 @@ public class IngredientsFragment extends Fragment {
     TextView emptyRecyclerView;
     SharedPreferences sharedPreferences;
 
-    public IngredientsFragment() {
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
