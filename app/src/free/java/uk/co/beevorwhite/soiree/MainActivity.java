@@ -300,7 +300,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 cursor.moveToPosition(position);
                 Intent dinnerIntent = new Intent(getApplicationContext(), DinnerActivity.class);
-                currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, position + 1);
+                currentDinnerUri = ContentUris.withAppendedId(CONTENT_URI, 
+                                   cursor.getLong(cursor.getColumnIndex(_ID))); 
                 dinnerIntent.setData(currentDinnerUri);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
