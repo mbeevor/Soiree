@@ -29,6 +29,13 @@
         <item name="android:textSize">@dimen/normal_text_size</item>
     </style>
 
+    <!-- style for sub text -->
+    <style name="sub_text">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+    </style>
+
     <!-- style for dinner party label -->
     <style name="dinner_party_label">
         <item name="android:fontFamily">serif</item>

@@ -62,7 +62,8 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:paddingBottom="@dimen/wide_padding"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
@@ -72,7 +73,7 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
@@ -101,7 +102,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/empty_view"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/adView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/main_heading" />
@@ -112,7 +113,7 @@
                 style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/adView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/main_heading"/>
@@ -120,12 +121,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/dinner_party_list_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="@dimen/narrow_margin"
                 android:layout_marginStart="@dimen/narrow_margin"
                 android:layout_marginTop="@dimen/narrow_margin"
-
                 app:layout_constraintBottom_toTopOf="@id/adView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,19 +137,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/narrow_margin"
+                android:layout_marginBottom="@dimen/wide_margin"
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"/>
 
         </android.support.constraint.ConstraintLayout>
 
-
-
     </android.support.v4.widget.NestedScrollView>
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/new_fab"
@@ -159,6 +157,7 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:clickable="true"
+        android:focusable="true"
         android:contentDescription="@string/create_new_dinner"
         android:elevation="@dimen/fab_elevation"
         android:src="@drawable/fab_plus"

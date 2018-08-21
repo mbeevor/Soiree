@@ -2,17 +2,17 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'soiree'
-            keyPassword 'android'
-            storeFile file('keystore/keystore.jks')
-            storePassword 'android'
+            keyAlias 'beevorwhite'
+            keyPassword 'Molly127a'
+            storeFile file('keystore/release.jks')
+            storePassword 'Molly127a'
         }
     }
     compileSdkVersion 27
     defaultConfig {
         applicationId "uk.co.beevorwhite.soiree"
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

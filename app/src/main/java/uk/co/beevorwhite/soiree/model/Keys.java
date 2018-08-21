@@ -46,6 +46,6 @@ public class Keys {
     public static final String ACTION_UPDATE_WIDGET = "uk.co.beevorwhite.soiree.action.update.widget";
 
     //AdMob
-    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
+    public static final String ADMOB_APP_ID = "ca-app-pub-7636876377712969~9704600793";
 
 }

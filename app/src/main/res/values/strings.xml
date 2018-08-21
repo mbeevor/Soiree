@@ -47,6 +47,8 @@
     <string name="select_this_dinner">View this dinner</string>
     <string name="progress_loading">Loading results.</string>
 
+    <string name="api_provided_by">Powered By Food2Fork.com</string>
+
 
 </resources>
 

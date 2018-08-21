@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"/>
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search_bar"
@@ -15,9 +15,24 @@
         android:layout_marginEnd="@dimen/narrow_margin"
         android:layout_marginStart="@dimen/narrow_margin"
         android:layout_marginTop="@dimen/wide_margin"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/powered_by"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/powered_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/wide_margin"
+        android:layout_marginEnd="@dimen/narrow_margin"
+        android:layout_marginStart="@dimen/narrow_margin"
+        android:layout_marginTop="@dimen/wide_margin"
+        android:text="@string/api_provided_by"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/search_bar"/>
 
 </android.support.constraint.ConstraintLayout>
