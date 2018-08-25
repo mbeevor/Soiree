@@ -15,6 +15,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.net.URL;
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.beevorwhite.soiree.Adapters.OnItemClickHandler;
 import uk.co.beevorwhite.soiree.Adapters.ResultsListAdapter;
 import uk.co.beevorwhite.soiree.AsyncTasks.AsyncTaskListener;
@@ -24,12 +29,6 @@ import uk.co.beevorwhite.soiree.data.DBHandler;
 import uk.co.beevorwhite.soiree.model.Dinner;
 import uk.co.beevorwhite.soiree.model.Keys;
 import uk.co.beevorwhite.soiree.model.Recipe;
-
-import java.net.URL;
-import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static uk.co.beevorwhite.soiree.model.Keys.COURSE;
 import static uk.co.beevorwhite.soiree.model.Keys.COURSE_MAIN;
@@ -117,7 +116,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             mainId = dinner.getMainId();
             mainName = dinner.getMainName();
             mainUri = dinner.getMainUri();
-            mainImage = dinner.getStarterImage();
+            mainImage = dinner.getMainImage();
             mainNotes = dinner.getMainNotes();
 
             puddingId = dinner.getPuddingId();
