@@ -25,12 +25,14 @@ android {
         applicationId "uk.co.beevorwhite.soiree"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         // ensure you have your own API key to run this app
         buildConfigField("String", "API_KEY", API_KEY)
+        buildConfigField("String", "API_ID", API_ID)
+
     }
     buildTypes {
         release {

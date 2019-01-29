@@ -7,16 +7,14 @@ public class Recipe implements Parcelable {
 
     private String recipeTitle;
     private String methodUrl;
-    private String recipeId;
     private String recipeImage;
-    private String recipeRank;
+    private String recipePortions;
 
-    public Recipe(String title, String url, String id, String image, String rank) {
+    public Recipe(String title, String url, String image, String portions) {
         recipeTitle = title;
         methodUrl = url;
-        recipeId = id;
         recipeImage = image;
-        recipeRank = rank;
+        recipePortions = portions;
     }
 
     public String getRecipeTitle() {
@@ -27,16 +25,12 @@ public class Recipe implements Parcelable {
         return methodUrl;
     }
 
-    public String getRecipeId() {
-        return recipeId;
-    }
-
     public String getRecipeImage() {
         return recipeImage;
     }
 
-    public String getRecipeRank() {
-        return recipeRank;
+    public String getRecipePortions() {
+        return recipePortions;
     }
 
     public void setRecipeTitle(String title) {
@@ -47,25 +41,20 @@ public class Recipe implements Parcelable {
         methodUrl = url;
     }
 
-    public void setRecipeId(String id) {
-        recipeId = id;
-    }
-
     public void setRecipeImage(String image) {
         recipeImage = image;
     }
 
-    public void setRecipeRank(String rank) {
-        recipeRank = rank;
+    public void setRecipePortions(String rank) {
+        recipePortions = rank;
     }
 
     protected Recipe(Parcel in) {
 
         recipeTitle = in.readString();
         methodUrl = in.readString();
-        recipeId = in.readString();
         recipeImage = in.readString();
-        recipeRank = in.readString();
+        recipePortions = in.readString();
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -91,9 +80,8 @@ public class Recipe implements Parcelable {
 
         dest.writeString(recipeTitle);
         dest.writeString(methodUrl);
-        dest.writeString(recipeId);
         dest.writeString(recipeImage);
-        dest.writeString(recipeRank);
+        dest.writeString(recipePortions);
 
     }
 }

@@ -173,21 +173,18 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                         switch (currentCourse) {
                             case COURSE_STARTER:
-                                starterId = recipe.getRecipeId();
                                 starterName = recipe.getRecipeTitle();
                                 starterUri = recipe.getMethodUrl();
                                 starterImage = recipe.getRecipeImage();
                                 break;
 
                             case COURSE_MAIN:
-                                mainId = recipe.getRecipeId();
                                 mainName = recipe.getRecipeTitle();
                                 mainUri = recipe.getMethodUrl();
                                 mainImage = recipe.getRecipeImage();
                                 break;
 
                             case COURSE_PUDDING:
-                                puddingId = recipe.getRecipeId();
                                 puddingName = recipe.getRecipeTitle();
                                 puddingUri = recipe.getMethodUrl();
                                 puddingImage = recipe.getRecipeImage();
@@ -269,7 +266,10 @@ public class SearchResultsActivity extends AppCompatActivity {
                 resultsRecyclerView.setAdapter(resultsListAdapter);
                 resultsListAdapter.updateData(recipesList);
 
+            } else {
+                Toast.makeText(getApplicationContext(), "There is is nothing to show!", Toast.LENGTH_SHORT).show();
             }
+
         }
     }
 

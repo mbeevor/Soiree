@@ -1,9 +1,7 @@
 package uk.co.beevorwhite.soiree;
 
-import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,21 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import uk.co.beevorwhite.soiree.Adapters.IngredientsListAdapter;
-import uk.co.beevorwhite.soiree.AsyncTasks.GetIngredientsData;
-import uk.co.beevorwhite.soiree.AsyncTasks.IngredientsAsyncTaskListener;
-import uk.co.beevorwhite.soiree.Utils.NetworkUtils;
-import uk.co.beevorwhite.soiree.model.Dinner;
-import uk.co.beevorwhite.soiree.model.Ingredient;
-import uk.co.beevorwhite.soiree.widget.MyWidgetRemoteViewsFactory;
-import uk.co.beevorwhite.soiree.widget.widget;
 import com.google.gson.Gson;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.beevorwhite.soiree.Adapters.IngredientsListAdapter;
+import uk.co.beevorwhite.soiree.AsyncTasks.IngredientsAsyncTaskListener;
+import uk.co.beevorwhite.soiree.model.Dinner;
+import uk.co.beevorwhite.soiree.model.Ingredient;
+import uk.co.beevorwhite.soiree.widget.widget;
 
 import static uk.co.beevorwhite.soiree.model.Keys.ACTION_UPDATE_WIDGET;
 import static uk.co.beevorwhite.soiree.model.Keys.COURSE;
@@ -144,8 +138,8 @@ public class IngredientsFragment extends Fragment {
     public void loadIngredientsList(String id) {
 
         if (id != null) {
-            URL resultUrl = NetworkUtils.resultUrl(id);
-            new GetIngredientsData(new GetIngredientsDataListener()).execute(resultUrl);
+
+//            new GetIngredientsData(new GetIngredientsDataListener()).execute(resultUrl);
         }
 
     }

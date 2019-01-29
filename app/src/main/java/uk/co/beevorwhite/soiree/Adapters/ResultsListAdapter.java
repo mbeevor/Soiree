@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import uk.co.beevorwhite.soiree.R;
-import uk.co.beevorwhite.soiree.model.Recipe;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.beevorwhite.soiree.R;
+import uk.co.beevorwhite.soiree.model.Recipe;
 
 
 public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ResultsListAdapterViewHolder>  {
@@ -62,9 +62,8 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             Recipe recipe = recipesList.get(position);
             String recipeTitle = recipe.getRecipeTitle();
             String methodUrl = recipe.getMethodUrl();
-            String recipeId = recipe.getRecipeId();
             String recipeImage = recipe.getRecipeImage();
-            String recipeRank = recipe.getRecipeRank();
+            String recipeRank = recipe.getRecipePortions();
 
             // reduce rank to two digits
             String recipeRankReduced = recipeRank.substring(0,2);
